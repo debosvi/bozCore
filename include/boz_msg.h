@@ -21,7 +21,7 @@
 
 /*!
  * \file        boz_msg.h
- * \brief       Message Management.
+ * \brief       Message Management public APIs.
  * \version     0.1
  * \date        2013/01/14
  * \author      Vincent de RIBOU.
@@ -35,7 +35,7 @@
 
 /**
  * \ingroup BOZCORE
- * \defgroup BOZMSG Message Management API.
+ * \defgroup BOZMSG Message Management public APIs.
  * \{
  */
 
@@ -135,6 +135,19 @@ boz_msg_t boz_msg_dup(const boz_msg_t id);
 int boz_msg_payload(const boz_msg_t id, char** payload);
 
 /**
+ * @brief Get message payload current length.
+ * @param[in]   id message identifier given with \ref boz_msg_new or \ref boz_msg_dup.
+ * @return      payload message current length
+ * @retval      >=0 in case of success.
+ * @retval      -1 in case of failure, \p buf set to NULL, errno set accordingly.
+ *
+ * errno can be :
+ * - ENOMSG if \p id is not a previously assigned identifier.
+ * - EIO if permanent failure.
+ */ 
+int boz_msg_payload_lg(const boz_msg_t id);
+
+/**
  * @brief Append data to message.
  * @param[in]   id message identifier given with \ref boz_msg_new or \ref boz_msg_dup.
  * @param[in]   data data reference.
@@ -214,9 +227,9 @@ int boz_msg_write(const boz_msg_t id, int fd);
 boz_msg_t boz_msg_read(const boz_msg_type_t type, int fd);
 
 /**
-  *\}
-  * End of group
-  */
+ *\}
+ * End of group
+ */
 
 #ifdef __cplusplus
 }
