@@ -9,11 +9,9 @@ include(tools.cmake)
 
 #set (CMAKE_VERBOSE_MAKEFILE ON)
 
-include_directories (${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(${CMAKE_BINARY_DIR}/include)
 
-include_directories(include)
-
-# add_subdirectory(thirdparties)
+add_subdirectory(include)
 add_subdirectory(src)
 add_subdirectory(test)
 
