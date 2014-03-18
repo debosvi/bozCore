@@ -51,6 +51,7 @@ extern "C"
  * @brief Messsage internal type.
  */
 typedef struct {
+    boz_msg_t       id;     /*!< message storage */
     boz_msg_type_t  type;   /*!< message type. */
     unsigned int    size;   /*!< message size alloc scheme. */
     stralloc        data;   /*!< message data. */

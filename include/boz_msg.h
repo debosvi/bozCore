@@ -22,7 +22,7 @@
 /*!
  * \file        boz_msg.h
  * \brief       Message Management public APIs.
- * \version     0.1
+ * \version     @boz_msg_VERSION@
  * \date        2013/01/14
  * \author      Vincent de RIBOU.
  * \copyright   Aquaplouf Land.

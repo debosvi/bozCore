@@ -20,8 +20,8 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /*!
- * \file        boz_msg_p.c
- * \brief       Message Management private APIs.
+ * \file        boz_msg_release.c
+ * \brief       Message creation implementation.
  * \version     0.1
  * \date        2013/01/14
  * \author      Vincent de RIBOU.
@@ -29,33 +29,36 @@
  *
  */
 
-#include <stdio.h>
+#include <errno.h>
 
 #include "boz_msg_p.h"
 
-boz_msg_glob_t boz_msg_g = BOZ_MSG_GLOB_ZERO;
+boz_msg_t boz_msg_new(const unsigned int size, const boz_msg_type_t type) {
+    unsigned int id=-1;
+    boz_msg_internal_t *p=NULL;
 
-static int boz_msg_free_iter(char* e, void* p) {
-    boz_msg_internal_t* elem=(boz_msg_internal_t*)e;
-    fprintf(stderr, "%s: %p, id(%u)\n", __PRETTY_FUNCTION__, elem, elem->id);
-    (void)p;
-    stralloc_free(&elem->data);
-    return 1;
-}
-
-__attribute__((constructor))
-static void boz_msg_init() {
-    fprintf(stderr, "%s\n", __PRETTY_FUNCTION__);
-    gensetdyn_init(&boz_msg_g.storage, sizeof(boz_msg_internal_t), 16, 0, 1);
-}
-
-__attribute__((destructor))
-static void boz_msg_fini() {
-    fprintf(stderr, "%s\n", __PRETTY_FUNCTION__);
-    unsigned int n = gensetdyn_n(&boz_msg_g.storage);
-    unsigned int m = gensetdyn_iter(&boz_msg_g.storage, boz_msg_free_iter, NULL);
-    if(m != n) {
-        fprintf(stderr, "%s: bad elems free count (expected:%d/done:%d), remains(%u)\n", __PRETTY_FUNCTION__, n, m, gensetdyn_n(&boz_msg_g.storage));
+    switch(type) {
+    case BOZ_MSG_TYPE_RAW: 
+    case BOZ_MSG_TYPE_BASIC: 
+        break;
+    default: 
+        return (errno=EINVAL,-1);
     }
-    gensetdyn_free(&boz_msg_g.storage);
+
+    if(!gensetdyn_new(&boz_msg_g.storage, &id))
+        return (errno=ENOSPC,-1);
+
+    p = (boz_msg_internal_t*)gensetdyn_p(&boz_msg_g.storage, id);
+    memset(p, 0xff, sizeof(boz_msg_internal_t));
+    p->id = id;
+    p->type = type;
+    p->size = size;
+    p->data = stralloc_zero;
+
+    if(size) {
+        stralloc_ready(&p->data, size);
+    }
+
+    return id;
 }
+
