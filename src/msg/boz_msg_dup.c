@@ -22,8 +22,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /*!
- * \file        boz_msg_release.c
- * \brief       Message release implementation.
+ * \file        boz_msg_dup.c
+ * \brief       Message duplicate implementation.
  * \version     0.1
  * \date        2013/01/14
  * \author      Vincent de RIBOU.
@@ -35,18 +35,26 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "boz_msg_p.h"
 
-int boz_msg_release(const boz_msg_t id) {
+boz_msg_t boz_msg_dup(const boz_msg_t id) {
     boz_msg_internal_t *p=NULL;
+    boz_msg_internal_t *p2=NULL;
+    boz_msg_t nid=BOZ_MSG_INVALID;
 
     p = GENSETDYN_P(boz_msg_internal_t, &boz_msg_g.storage, id);
     if(p->id != id)
         return (errno=ENOMSG,-1);
+
+    nid = boz_msg_new(p->size, p->type);
+    if(nid==BOZ_MSG_INVALID) {
+       return -1; 
+    }
+
+    p2 = GENSETDYN_P(boz_msg_internal_t, &boz_msg_g.storage, nid);
+    if(p->id != id)
+        return (errno=EIO,-1);
+
+    stralloc_copy(&p2->data, &p->data);
         
-    stralloc_free(&p->data);
-    memset(p, 0xff, sizeof(boz_msg_internal_t));
-
-    gensetdyn_delete(&boz_msg_g.storage, id);
-
-    return (errno=0,0);
+    return (errno=0,nid);
 }
 
