@@ -20,3 +20,4 @@
 # boz
 build
 .cmakebuilt
+*.swp
