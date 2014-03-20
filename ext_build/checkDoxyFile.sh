@@ -10,18 +10,18 @@ function check_file {
     file=$1;
 
     if [ ! -f ${file} ]; then 
-        echo -e "Not afile: ${file}"; 
+        echo -e "Not valid file: ${file}"; 
         return
     fi
         
     echo -e "Test file: ${file}"; 
-    hasdoxy=`grep -s "\*.*\file" ${file}`;
+    hasdoxy=`grep -s "^[\ ]*\**[\ ]*\\file" ${file}`;
     if [ "${hasdoxy}" == "" ]; then
         echo -e "\e[0;31m\tNo doxygen '\\\\file' input\e[0m";
         return
     fi
 
-    content=`grep -s "\*.*\file" ${file} | awk '{ print $3 }'`;
+    content=`echo "${hasdoxy}" | awk '{ print $3 }' `;
     fname=`basename ${file}`;
     if [ "${content}" != "${fname}" ]; then
         echo -e "\e[0;31m\tBad doxygen input (${content})\e[0m";
