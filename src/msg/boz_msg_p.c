@@ -35,6 +35,8 @@
 
 boz_msg_glob_t boz_msg_g = BOZ_MSG_GLOB_ZERO;
 
+//*****************************************************************************
+//*****************************************************************************
 static int boz_msg_free_iter(char* e, void* p) {
     boz_msg_internal_t* elem=(boz_msg_internal_t*)e;
     fprintf(stderr, "%s: %p, id(%u)\n", __PRETTY_FUNCTION__, elem, elem->id);
@@ -43,12 +45,16 @@ static int boz_msg_free_iter(char* e, void* p) {
     return 1;
 }
 
+//*****************************************************************************
+//*****************************************************************************
 __attribute__((constructor))
 static void boz_msg_init() {
     fprintf(stderr, "%s\n", __PRETTY_FUNCTION__);
     gensetdyn_init(&boz_msg_g.storage, sizeof(boz_msg_internal_t), 16, 0, 1);
 }
 
+//*****************************************************************************
+//*****************************************************************************
 __attribute__((destructor))
 static void boz_msg_fini() {
     fprintf(stderr, "%s\n", __PRETTY_FUNCTION__);
@@ -59,3 +65,4 @@ static void boz_msg_fini() {
     }
     gensetdyn_free(&boz_msg_g.storage);
 }
+

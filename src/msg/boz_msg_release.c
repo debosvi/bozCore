@@ -45,6 +45,6 @@ int boz_msg_release(const boz_msg_t id) {
 
     gensetdyn_delete(&boz_msg_g.storage, id);
 
-    return 0;
+    return (errno=0,0);
 }
 

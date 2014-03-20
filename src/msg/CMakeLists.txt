@@ -5,6 +5,8 @@ set(SOURCES
     boz_msg_p.c
     boz_msg_new.c
     boz_msg_release.c
+    boz_msg_type.c
+    boz_msg_dup.c
     )
     
 add_library(${BOZ_MSG_LIB} SHARED

@@ -59,6 +59,6 @@ boz_msg_t boz_msg_new(const unsigned int size, const boz_msg_type_t type) {
         stralloc_ready(&p->data, size);
     }
 
-    return id;
+    return (errno=0,id);
 }
 

@@ -40,6 +40,6 @@ boz_msg_type_t boz_msg_type(const boz_msg_t id) {
     if(p->id != id)
         return (errno=ENOMSG,-1);
         
-    return p->type;
+    return (errno=0,p->type);
 }
 
