@@ -164,6 +164,36 @@ int boz_msg_payload_lg(const boz_msg_t id);
 int boz_msg_append(const boz_msg_t id, const char* data, const unsigned int lg);
 
 /**
+ * @brief Append unsigned short integer to message.
+ * @param[in]   id message identifier given with \ref boz_msg_new or \ref boz_msg_dup.
+ * @param[in]   u unsigned short int value.
+ * @return      operation status
+ * @retval      >=0 in case of success.
+ * @retval      -1 in case of failure, errno set accordingly.
+ *
+ * errno can be :
+ * - ENOMSG if \p id is not a previously assigned identifier.
+ * - ENOSPC if \p lg cannot be reached due to limited message size.
+ * - EIO if permanent failure.
+ */ 
+int boz_msg_append_ushort(const boz_msg_t id, const unsigned short int u);
+
+/**
+ * @brief Append unsigned long integer to message.
+ * @param[in]   id message identifier given with \ref boz_msg_new or \ref boz_msg_dup.
+ * @param[in]   u unsigned long int value.
+ * @return      operation status
+ * @retval      >=0 in case of success.
+ * @retval      -1 in case of failure, errno set accordingly.
+ *
+ * errno can be :
+ * - ENOMSG if \p id is not a previously assigned identifier.
+ * - ENOSPC if \p lg cannot be reached due to limited message size.
+ * - EIO if permanent failure.
+ */ 
+int boz_msg_append_ulong(const boz_msg_t id, const unsigned long int u);
+
+/**
  * @brief Load data to message from first payload byte.
  * @param[in]   id message identifier given with \ref boz_msg_new or \ref boz_msg_dup.
  * @param[in]   data data reference.
