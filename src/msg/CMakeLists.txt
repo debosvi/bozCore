@@ -12,6 +12,7 @@ set(SOURCES
     boz_msg_ushort.c
     boz_msg_ulong.c
     boz_msg_load.c
+    boz_msg_vsprintf.c
     )
     
 add_library(${BOZ_MSG_LIB} SHARED
