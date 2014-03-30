@@ -7,11 +7,14 @@
 
 #include "boz_msg.h"
 
-#define COUNT   10
+#define COUNT    10
+#define BUF_LG   65536
+
+#define SET_BUF   j=0; while(j++<BUF_LG) buf[j-1]=rand();
 
 int main(int ac, char **av) {
     boz_msg_t m=BOZ_MSG_INVALID;
-    unsigned int i=0;
+    unsigned int i=0, j=0;
     unsigned int ids[COUNT];
     unsigned int count=COUNT;
 
@@ -24,9 +27,13 @@ int main(int ac, char **av) {
 
     i=0;
     while(i<count) {
+        char buf[BUF_LG];
         m=boz_msg_new(10*i, BOZ_MSG_TYPE_RAW);
         ids[i] = m;
         fprintf(stderr, "%s: new id (%u)\n", __PRETTY_FUNCTION__, m);
+
+        SET_BUF
+        boz_msg_append(m, buf, BUF_LG);
         i++;
     }
 
