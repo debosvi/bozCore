@@ -53,11 +53,13 @@ extern "C"
  * @brief Messsage internal type.
  */
 typedef struct {
-    boz_msg_t       id;     /*!< message storage */
-    boz_msg_type_t  type;   /*!< message type. */
-    unsigned int    size;   /*!< message size alloc scheme. */
-    stralloc        data;   /*!< message data. */
+    boz_msg_t           id;         /*!< message storage id. */
+    boz_msg_params_t    params;     /*!< message params. */
+    stralloc            data;       /*!< message data. */
 } boz_msg_internal_t;
+
+#define BOZ_MSG_INTERNAL_ZERO { .id=BOZ_MSG_INVALID, .params=BOZ_MSG_PARAMS_ZERO, .data=STRALLOC_ZERO }
+extern boz_msg_internal_t boz_msg_internal_zero;
   
 /**
  * @brief Messsage global type.

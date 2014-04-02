@@ -24,7 +24,10 @@ int main(int ac, char **av) {
 
     i=0;
     while(i<count) {
-        m=boz_msg_new(10*i, BOZ_MSG_TYPE_RAW);
+        boz_msg_params_t p;
+        p.size = 10*i;
+        p.type = BOZ_MSG_TYPE_RAW;
+        m=boz_msg_new(&p);
         ids[i] = m;
         fprintf(stderr, "%s: new id (%u)\n", __PRETTY_FUNCTION__, m);
         i++;

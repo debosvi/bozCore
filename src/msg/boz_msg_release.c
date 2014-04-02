@@ -43,7 +43,7 @@ int boz_msg_release(const boz_msg_t id) {
         return (errno=ENOMSG,-1);
         
     stralloc_free(&p->data);
-    memset(p, 0xff, sizeof(boz_msg_internal_t));
+    (*p) = boz_msg_internal_zero;
 
     gensetdyn_delete(&boz_msg_g.storage, id);
 

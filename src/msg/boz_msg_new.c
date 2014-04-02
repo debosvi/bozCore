@@ -35,11 +35,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "boz_msg_p.h"
 
-boz_msg_t boz_msg_new(const unsigned int size, const boz_msg_type_t type) {
+boz_msg_t boz_msg_new(const boz_msg_params_t* const p) {
     unsigned int id=-1;
-    boz_msg_internal_t *p=NULL;
-
-    switch(type) {
+    boz_msg_internal_t *pi=NULL;
+    boz_msg_params_t *pp=(boz_msg_params_t*)p;
+    
+    if(!pp)
+        pp = &boz_msg_params_zero;
+    
+    switch(p->type) {
     case BOZ_MSG_TYPE_RAW: 
     case BOZ_MSG_TYPE_BASIC: 
         break;
@@ -50,15 +54,14 @@ boz_msg_t boz_msg_new(const unsigned int size, const boz_msg_type_t type) {
     if(!gensetdyn_new(&boz_msg_g.storage, &id))
         return (errno=ENOSPC,-1);
 
-    p = (boz_msg_internal_t*)gensetdyn_p(&boz_msg_g.storage, id);
-    memset(p, 0xff, sizeof(boz_msg_internal_t));
-    p->id = id;
-    p->type = type;
-    p->size = size;
-    p->data = stralloc_zero;
+    pi = (boz_msg_internal_t*)gensetdyn_p(&boz_msg_g.storage, id);
+    (*pi) = boz_msg_internal_zero;
+    pi->id = id;
+    pi->params = *pp;
+//    pi->data = stralloc_zero;
 
-    if(size) {
-        stralloc_ready(&p->data, size);
+    if(pi->params.size) {
+        stralloc_ready(&pi->data, pi->params.size);
     }
 
     return (errno=0,id);

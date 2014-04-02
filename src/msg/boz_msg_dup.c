@@ -44,7 +44,7 @@ boz_msg_t boz_msg_dup(const boz_msg_t id) {
     if(p->id != id)
         return (errno=ENOMSG,-1);
 
-    nid = boz_msg_new(p->size, p->type);
+    nid = boz_msg_new(&p->params);
     if(nid==BOZ_MSG_INVALID) {
        return -1; 
     }

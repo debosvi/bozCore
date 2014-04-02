@@ -48,7 +48,7 @@ extern "C"
  * @brief Defines the kind of message.
  */
 typedef enum {
-    BOZ_MSG_TYPE_RAW=0,    /*!< No header, no footer. */
+    BOZ_MSG_TYPE_RAW=0,     /*!< No header, no footer. */
     BOZ_MSG_TYPE_BASIC,     /*!< Basic header and footer, add size in header and CRC32 in footer. */
     BOZ_MSG_TYPE_END_VALUE
 } boz_msg_type_t;
@@ -64,22 +64,33 @@ typedef int boz_msg_t;
 #define BOZ_MSG_INVALID (-1)
 
 /**
+ * @brief Message queue parameters.
+ *
+ * If \ref p.size if positive, the message depth is limited, then it can't exceeds this. 
+ * If \ref p.size is 0, the successive fill can grow up internal data without limitations.
+ *
+ */
+typedef struct{
+    boz_msg_type_t  type;        /*!< Type of the messages managed by the queue. */
+    int             size;        /*!< Size of messages stored. */
+} boz_msg_params_t;
+#define BOZ_MSG_PARAMS_ZERO { BOZ_MSG_TYPE_RAW, 0}
+
+extern boz_msg_params_t boz_msg_params_zero;
+
+/**
  * @brief Create a new typed message.
- * @param[in]   size pre-allocated message size.
- * @param[in]   type message type.
+ * @param[in]   p initialise parameters.
  * @return      message identifier (to be used in all others APIs afterwards).
  * @retval      >=0 in case of success.
  * @retval      BOZ_MSG_INVALID in case of failure, errno set accordingly.
  * 
- * If \ref size if positive, the message depth is limited, then it can't exceeds this. 
- * If \ref size is 0, the successive fill can grow up internal data without limitations.
- *
  * errno can be :
- * - EINVAL if \p size or \p type are bad values.
+ * - EINVAL if parameters are bad values.
  * - ENOSPC in case of no more memory available
  * - EIO if permanent failure.
  */ 
-boz_msg_t boz_msg_new(const unsigned int size, const boz_msg_type_t type);
+boz_msg_t boz_msg_new(const boz_msg_params_t* const p);
 
 /**
  * @brief Release a message.

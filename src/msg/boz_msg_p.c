@@ -35,6 +35,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "boz_msg_p.h"
 
+boz_msg_params_t boz_msg_params_zero = BOZ_MSG_PARAMS_ZERO;
+boz_msg_internal_t boz_msg_internal_zero = BOZ_MSG_INTERNAL_ZERO;
 boz_msg_glob_t boz_msg_g = BOZ_MSG_GLOB_ZERO;
 
 //*****************************************************************************
