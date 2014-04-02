@@ -22,7 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /*!
- * \file        boz_msg_payload.c
+ * \file        boz_msg_lg.c
  * \brief       Message payload implementation.
  * \version     0.1
  * \date        2013/01/14
@@ -35,12 +35,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "boz_msg_p.h"
 
-void* boz_msg_p(const boz_msg_t id) {
+int boz_msg_lg(const boz_msg_t id) {
     boz_msg_internal_t *p=NULL;
 
     p = GENSETDYN_P(boz_msg_internal_t, &boz_msg_g.storage, id);
     if(p->id != id)
-        return (errno=ENOMSG,NULL);
+        return (errno=ENOMSG,-1);
 
-    return (errno=0, p->data.s);
+    return (errno=0, p->data.len);
 }
+

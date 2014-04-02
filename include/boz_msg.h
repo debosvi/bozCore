@@ -132,7 +132,7 @@ boz_msg_t boz_msg_dup(const boz_msg_t id);
  * - ENOMSG if \p id is not a previously assigned identifier.
  * - EIO if permanent failure.
  */ 
-int boz_msg_payload(const boz_msg_t id, char** payload);
+void* boz_msg_p(const boz_msg_t id);
 
 /**
  * @brief Get message payload current length.
@@ -145,7 +145,7 @@ int boz_msg_payload(const boz_msg_t id, char** payload);
  * - ENOMSG if \p id is not a previously assigned identifier.
  * - EIO if permanent failure.
  */ 
-int boz_msg_payload_lg(const boz_msg_t id);
+int boz_msg_lg(const boz_msg_t id);
 
 /**
  * @brief Append data to message.
