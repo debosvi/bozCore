@@ -33,6 +33,8 @@
 #ifndef _BOZ_MSG_QUEUE_H_
 #define _BOZ_MSG_QUEUE_H_
 
+#include "boz_msg.h"
+
 /**
  * \ingroup BOZCORE
  * \defgroup BOZMSG_QUEUE Message Queue Management API.
@@ -55,27 +57,18 @@ typedef int boz_msg_queue_t;
 #define BOZ_MSG_QUEUE_INVALID (-1)
 
 /**
- * @brief Message queue parameters.
- */
-typedef struct{
-    boz_msg_type_t  type;        /*!< Type of the messages managed by the queue. */
-    int             size;        /*!< Size of messages stored. */
-} boz_msg_queue_params_t;
-#define BOZ_MSG_QUEUE_PARAMS_ZERO { BOZ_MSG_TYPE_BASIC, 0}
-
-/**
  * @brief Create a new message queue.
- * @param[in]   queue parameters.
- * @return      message queue identifier (to be used in all others APIs afterwards).
+ * @param[in]   p initialise parameters.
+ * @return      queue identifier (to be used in all others APIs afterwards).
  * @retval      >=0 in case of success.
  * @retval      BOZ_MSG_QUEUE_INVALID in case of failure, errno set accordingly.
- * 
+ *
  * errno can be :
- * - EINVAL if \p params values are not relevant.
+ * - EINVAL if parameters are bad values.
  * - ENOSPC in case of no more memory available
  * - EIO if permanent failure.
  */ 
-boz_msg_queue_t boz_msg_queue_new(const boz_msg_queue_params_t * const params);
+boz_msg_queue_t boz_msg_queue_new(const boz_msg_params_t* const p);
 
 /**
  * @brief Release a message queue.
@@ -88,20 +81,84 @@ boz_msg_queue_t boz_msg_queue_new(const boz_msg_queue_params_t * const params);
  * - ENOMSG if \p id is not a previously assigned identifier.
  * - EIO if permanent failure.
  */ 
-int boz_msg_queue_rel(const boz_msg_queue_t id);
+int boz_msg_queue_release(const boz_msg_queue_t id);
 
 /**
-** @brief Adds a message to the queue.
-** @note the given message is inserted at the end of the queue.
-**       Do not release it after a call to this method.
-**/
-int boz_msg_queue_add_msg(const boz_msg_queue_t idq, const boz_msg_t idm);
+ * @brief Add a message to queue.
+ * @param[in]   idq message queue identifier given with \ref boz_msg_queue_new.
+ * @param[in]   idm message identifier given with \ref boz_msg_new.
+ * @return      operation status
+ * @retval      0 on success.
+ * @retval      -1 on failure, errno set accordingly.
+ *
+ * errno can be :
+ * - EINVAL if \p idq is not a previously assigned identifier.
+ * - ENOMSG if \p idm is not a previously assigned identifier.
+ * - EIO if permanent failure.
+ * 
+ * @note the given message is inserted at the end of the queue. Do not release it after a call to this method.
+ */
+int boz_msg_queue_push_msg(const boz_msg_queue_t idq, const boz_msg_t idm);
+
 
 /**
-** @brief Returns false is the queue is empty. True if not.
-**/
-bool boz_msg_queue_is_empty(boz_msg_queue_t msg_queue);
+ * @brief Get (but not remove) a message from queue.
+ * @param[in]   id message queue identifier given with \ref boz_msg_queue_new.
+ * @return      operation status
+ * @retval      0 on success.
+ * @retval      BOZ_MSG_INVALID on failure, errno set accordingly.
+ *
+ * errno can be :
+ * - ENOMSG if \p id is not a previously assigned identifier.
+ * - EIO if permanent failure.
+ * 
+ * @note the returned message must then be released via the method #boz_msg_rel.
+ */
+boz_msg_t boz_msg_queue_first_msg(const boz_msg_queue_t id);
 
+/**
+ * @brief Get and remove a message from queue.
+ * @param[in]   id message queue identifier given with \ref boz_msg_queue_new.
+ * @return      operation status
+ * @retval      0 on success.
+ * @retval      BOZ_MSG_INVALID on failure, errno set accordingly.
+ *
+ * errno can be :
+ * - ENOMSG if \p id is not a previously assigned identifier.
+ * - EIO if permanent failure.
+ */
+boz_msg_t boz_msg_queue_pop_msg(const boz_msg_queue_t id);
+
+/**
+ * @brief Check if queue is empty.
+ * @param[in]   id message queue identifier given with \ref boz_msg_queue_new.
+ * @return      operation status
+ * @retval      0 on success.
+ * @retval      -1 on failure, errno set accordingly.
+ *
+ * errno can be :
+ * - ENOMSG if \p id is not a previously assigned identifier.
+ * - EIO if permanent failure.
+ * 
+ * @note the returned message must then be released via the method #boz_msg_rel.
+ */
+int boz_msg_queue_is_empty(const boz_msg_queue_t id);
+
+/**
+ * @brief Remove all the message from the queue.
+ * @param[in]   id message queue identifier given with \ref boz_msg_queue_new.
+ * @return      operation status
+ * @retval      0 on success.
+ * @retval      -1 on failure, errno set accordingly.
+ *
+ * errno can be :
+ * - ENOMSG if \p id is not a previously assigned identifier.
+ * - EIO if permanent failure.
+ */
+int boz_msg_queue_shrink(const boz_msg_queue_t id);
+
+
+#if 0
 /**
 ** @brief Interates on the messages of the given message queue.
 ** @param[in] msg_queue    the message queue.
@@ -126,31 +183,11 @@ int boz_msg_queue_iterate(boz_msg_queue_t msg_queue, boz_msg_op_t msg_op, void *
 **/
 int boz_msg_queue_flush(boz_msg_queue_t msg_queue, int fd);
 
-/**
-** @brief Removes all the message of the queue.
-** @param[in] msg_queue The message queue.
-** @retval    0 in case of success.
-** @retval    -1 in case of failure.
-**               errno is set to EINVAL in case of wrong argument.
-**/
-int boz_msg_queue_shrink(boz_msg_queue_t msg_queue);
 
 /**
 ** @brief Reads data from the given fd..
 **/
 int boz_msg_queue_read(boz_msg_queue_t msg_queue, int fd);
-
-/**
-** @brief Returns the first message of the queue.
-**/
-boz_msg_t boz_msg_queue_get_first(boz_msg_queue_t msg_queue);
-
-/**
-** @brief Removes the first element of the queue and returns it.
-**
-** @note the returned message must then be released via the method #boz_msg_rel.
-**/
-boz_msg_t boz_msg_queue_pop_msg(boz_msg_queue_t msg_queue);
 
 /**
 ** @brief Defines the message queue iterate operation.
@@ -161,6 +198,7 @@ boz_msg_t boz_msg_queue_pop_msg(boz_msg_queue_t msg_queue);
 **
 **/
 typedef int (*boz_msg_op_t)(boz_msg_t msg, void * uc);
+#endif
 
 /**
  *\}
