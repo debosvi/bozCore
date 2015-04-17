@@ -64,7 +64,7 @@ static void boz_queue_fini() {
     unsigned int n = gensetdyn_n(&boz_queue_g.storage);
     unsigned int m = gensetdyn_iter(&boz_queue_g.storage, boz_queue_free_iter, NULL);
     if(m != n) {
-        fprintf(stderr, "%s: bad elems free count (expected:%d/done:%d), remains(%u)\n", __PRETTY_FUNCTION__, n, m, gensetdyn_n(&boz_queue_g.storage));
+        fprintf(stderr, "%s: bad elems free count (expected:%d/done:%d), remains(%lu)\n", __PRETTY_FUNCTION__, n, m, gensetdyn_n(&boz_queue_g.storage));
     }
     gensetdyn_free(&boz_queue_g.storage);
 }

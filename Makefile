@@ -1,3 +1,3 @@
-export PROJECT_NAME=bozDiscovery
+export PROJECT_NAME=bozCore
 
 include ext_build/Makefile

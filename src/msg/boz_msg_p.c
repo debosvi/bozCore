@@ -65,7 +65,7 @@ static void boz_msg_fini() {
     unsigned int n = gensetdyn_n(&boz_msg_g.storage);
     unsigned int m = gensetdyn_iter(&boz_msg_g.storage, boz_msg_free_iter, NULL);
     if(m != n) {
-        fprintf(stderr, "%s: bad elems free count (expected:%d/done:%d), remains(%u)\n", __PRETTY_FUNCTION__, n, m, gensetdyn_n(&boz_msg_g.storage));
+        fprintf(stderr, "%s: bad elems free count (expected:%d/done:%d), remains(%lu)\n", __PRETTY_FUNCTION__, n, m, gensetdyn_n(&boz_msg_g.storage));
     }
     gensetdyn_free(&boz_msg_g.storage);
 }

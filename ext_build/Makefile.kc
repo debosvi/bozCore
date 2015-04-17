@@ -6,7 +6,7 @@ help_kc:
 kc-%: $(BUILD_OUTPUT)
 	@$(MAKE) $(VERBOSE) -C ext_build/support/kconfig BUILD_TYPE=$(BUILD_TYPE) obj=$(BUILD_OUTPUT) $*
 ifneq ($(wildcard $(BUILD_OUTPUT)/Makefile),)
-	@$(MAKE) $(VERBOSE) -C $(BUILD_OUTPUT) s6EnvVars
+#	@$(MAKE) $(VERBOSE) -C $(BUILD_OUTPUT) s6EnvVars
 	@$(MAKE) $(VERBOSE) -C $(BUILD_OUTPUT) rebuild_cache
 endif
 

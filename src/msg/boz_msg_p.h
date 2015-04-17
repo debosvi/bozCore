@@ -45,7 +45,7 @@ extern "C"
 {
 #endif
 
-#include <skarnet/gensetdyn.h>
+#include <skalibs/gensetdyn.h>
 
 #include "boz_msg.h"
   

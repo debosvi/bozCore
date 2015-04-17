@@ -16,16 +16,11 @@ set(SOURCES
     boz_msg_vsprintf.c
     )
     
-add_library(${BOZ_MSG_LIB} SHARED
+add_library(${BOZ_MSG_LIB} STATIC
     ${SOURCES}
     )
 
-set_target_properties(${BOZ_MSG_LIB} PROPERTIES
-    VERSION ${boz_msg_VERSION}
-    SOVERSION ${boz_msg_SOVERSION}
-    )
-    
 target_link_libraries(${BOZ_MSG_LIB}
-    datastruct stddjb
+    skarnet
     )
     
