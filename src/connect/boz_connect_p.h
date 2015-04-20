@@ -58,8 +58,8 @@ typedef struct {
     boz_connect_t           id;         /*!< message storage id. */
     boz_connect_params_t    params;     /*!< message params. */
     void*                   b_in;       /*!< Buffer input storage */
-    buffer		    d_in;	/*!< Data in storage */
-    bufalloc		    d_out;	/*!< Data out storage */
+    buffer                  d_in;	/*!< Data in storage */
+    bufalloc                d_out;	/*!< Data out storage */
 } boz_connect_internal_t;
 
 #define BOZ_CONNECT_INTERNAL_ZERO { 	\
@@ -86,21 +86,6 @@ typedef struct {
  * @brief Messsage global type instance.
  */
 extern boz_connect_glob_t boz_connect_g;
-
-/**
- * @brief Default write function.
- */
-extern int boz_connect_write_io(int fd, char const *b, unsigned int l);
-
-/**
- * @brief Default read function.
- */
-extern int boz_connect_read_io(int fd, char const *b, unsigned int l);
-
-/**
- * @brief Default read function.
- */
-extern int boz_connect_read_ioska(int fd, siovec_t const *sio, unsigned int l);
 
 /**
  *\}

@@ -31,6 +31,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
 
+#include <stdlib.h>
 #include <errno.h>
 
 #include "boz_connect_p.h"
@@ -42,6 +43,9 @@ int boz_connect_release(const boz_connect_t id) {
     if(p->id != id)
         return (errno=ENOMSG,-1);
         
+    bufalloc_free(&p->d_out);
+    free(p->b_in);
+    p->b_in=0;
     (*p) = boz_connect_internal_zero;
 
     gensetdyn_delete(&boz_connect_g.storage, id);

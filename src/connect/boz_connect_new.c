@@ -63,10 +63,6 @@ boz_connect_t boz_connect_new(const boz_connect_params_t* const p) {
     (*pi) = boz_connect_internal_zero;
     pi->id = id;
     pi->params = *pp;
-    if(!pi->params.fw)
-        pi->params.fw = boz_connect_write_io;
-    if(!pi->params.fr)
-        pi->params.fr = boz_connect_read_io;
 //    pi->data = stralloc_zero;
 
     buf=malloc(pi->params.rsize);
@@ -74,8 +70,8 @@ boz_connect_t boz_connect_new(const boz_connect_params_t* const p) {
         return (errno=ENOSPC,-1);
 
     pi->b_in = buf;
-    buffer_init(&pi->d_in, boz_connect_read_ioska, pi->params.fd, pi->b_in, pi->params.rsize);
-    bufalloc_init(&pi->d_out, pi->params.fw, pi->params.fd);
+    buffer_init(&pi->d_in, buffer_read, pi->params.fd, pi->b_in, pi->params.rsize);
+    bufalloc_init(&pi->d_out, fd_write, pi->params.fd);
 
     return (errno=0,id);
 }

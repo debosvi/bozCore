@@ -32,6 +32,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "boz_connect_p.h"
 
@@ -45,7 +46,9 @@ static int boz_connect_free_iter(char* e, void* p) {
     boz_connect_internal_t* elem=(boz_connect_internal_t*)e;
     fprintf(stderr, "%s: %p, id(%u)\n", __PRETTY_FUNCTION__, elem, elem->id);
     (void)p;
-//    stralloc_free(&elem->data);
+    bufalloc_free(&elem->d_out);
+    free(elem->b_in);
+    elem->b_in=0;
     return 1;
 }
 

@@ -53,17 +53,6 @@ typedef enum {
 } boz_connect_type_t;
 
 /**
- * @brief Write function.
- * @param[in]   fd filedescriptor onto write.
- * @param[in]   b buffer start pointer.
- * @param[in]   l buffer length.
- * @return      data length written.
- * @retval      -1 on error.
- * 
- */ 
-typedef int (*io_fn)(int fd, char const *b, unsigned int l);
-
-/**
  * @brief Message identifier.
  */
 typedef int boz_connect_t;
@@ -84,15 +73,11 @@ typedef struct{
     boz_connect_type_t  type;       /*!< Type of the messages managed by the queue. */
     int             	fd;         /*!< File descriptor onto read/write. */
     int             	rsize;      /*!< Size of messages to be read. */
-    io_fn               fw;         /*!< Write function */
-    io_fn               fr;         /*!< Read function */
 } boz_connect_params_t;
 #define BOZ_CONNECT_PARAMS_ZERO {   \
     .type=BOZ_CONNECT_TYPE_BASIC,   \
     .fd = -1,                       \
     .rsize = 0,                     \
-    .fw = 0,                        \
-    .fr = 0                         \
 }
 
 extern boz_connect_params_t boz_connect_params_zero;
