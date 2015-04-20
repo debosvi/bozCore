@@ -22,7 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /*!
- * \file        boz_msg_p.h
+ * \file        boz_connect_p.h
  * \brief       Message Management private APIs.
  * \version     0.1
  * \date        2013/01/14
@@ -46,6 +46,8 @@ extern "C"
 #endif
 
 #include <skalibs/gensetdyn.h>
+#include <skalibs/buffer.h>
+#include <skalibs/bufalloc.h>
 
 #include "bozCore/boz_connect.h"
   
@@ -55,9 +57,16 @@ extern "C"
 typedef struct {
     boz_connect_t           id;         /*!< message storage id. */
     boz_connect_params_t    params;     /*!< message params. */
+    buffer		    d_in;	/*!< data in storage */
+    bufalloc		    d_out;	/*!< data out storage */
 } boz_connect_internal_t;
 
-#define BOZ_CONNECT_INTERNAL_ZERO { .id=BOZ_CONNECT_INVALID, .params=BOZ_CONNECT_PARAMS_ZERO }
+#define BOZ_CONNECT_INTERNAL_ZERO { 	\
+    .id=BOZ_CONNECT_INVALID,            \
+    .params=BOZ_CONNECT_PARAMS_ZERO,    \
+    .d_in=BUFFER_ZERO,                  \
+    .d_out=BUFALLOC_ZERO                \
+}
 extern boz_connect_internal_t boz_connect_internal_zero;
   
 /**
@@ -76,6 +85,16 @@ typedef struct {
  * @brief Messsage global type instance.
  */
 extern boz_connect_glob_t boz_connect_g;
+
+/**
+ * @brief Default write function.
+ */
+extern int boz_connect_write_io(int fd, char* b, unsigned int l);
+
+/**
+ * @brief Default read function.
+ */
+extern int boz_connect_read_io(int fd, char* b, unsigned int l);
 
 /**
  *\}
