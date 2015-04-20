@@ -32,6 +32,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 #include <errno.h>
+#include <fcntl.h>
+#include <stdlib.h>
 
 #include "boz_connect_p.h"
 
@@ -39,6 +41,7 @@ boz_connect_t boz_connect_new(const boz_connect_params_t* const p) {
     unsigned int id=-1;
     boz_connect_internal_t *pi=NULL;
     boz_connect_params_t *pp=(boz_connect_params_t*)p;
+    void *buf=0;
     
     if(!pp)
         pp = &boz_connect_params_zero;
@@ -49,6 +52,9 @@ boz_connect_t boz_connect_new(const boz_connect_params_t* const p) {
     default: 
         return (errno=EINVAL,-1);
     }
+
+    if(fcntl(pp->fd, F_GETFD)<0)
+        return (errno=EBADF,-1);
 
     if(!gensetdyn_new(&boz_connect_g.storage, &id))
         return (errno=ENOSPC,-1);
@@ -63,6 +69,13 @@ boz_connect_t boz_connect_new(const boz_connect_params_t* const p) {
         pi->params.fr = boz_connect_read_io;
 //    pi->data = stralloc_zero;
 
+    buf=malloc(pi->params.rsize);
+    if(!buf)
+        return (errno=ENOSPC,-1);
+
+    pi->b_in = buf;
+    buffer_init(&pi->d_in, boz_connect_read_ioska, pi->params.fd, pi->b_in, pi->params.rsize);
+    bufalloc_init(&pi->d_out, pi->params.fw, pi->params.fd);
 
     return (errno=0,id);
 }

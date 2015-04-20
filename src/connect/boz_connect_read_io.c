@@ -31,13 +31,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
 
-#include <unistd.h>
-
 #include "boz_connect_p.h"
 
 //*****************************************************************************
 //*****************************************************************************
-int boz_connect_read_io(int fd, char* b, unsigned int m) {
-    return read(fd, b, m);
+int boz_connect_read_io(int fd, char const *b, unsigned int m) {
+    siovec_t sio = { (char*)b, 0 };
+
+    return boz_connect_read_ioska(fd, &sio, m);
 }
 

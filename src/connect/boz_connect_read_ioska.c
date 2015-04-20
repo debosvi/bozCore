@@ -22,7 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /*!
- * \file        boz_connect_write_io.c
+ * \file        boz_connect_read_io.c
  * \brief       Default write function implementation.
  * \version     0.1
  * \date        2013/01/14
@@ -37,7 +37,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 //*****************************************************************************
 //*****************************************************************************
-int boz_connect_write_io(int fd, char const *b, unsigned int l) {
-    return write(fd, b, l);
+int boz_connect_read_ioska(int fd, siovec_t const *sio, unsigned int m) {
+    return read(fd, sio->s, m);
 }
 

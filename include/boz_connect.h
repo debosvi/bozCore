@@ -61,7 +61,7 @@ typedef enum {
  * @retval      -1 on error.
  * 
  */ 
-typedef int (*io_fn)(int fd, char* b, unsigned int l);
+typedef int (*io_fn)(int fd, char const *b, unsigned int l);
 
 /**
  * @brief Message identifier.
