@@ -1,3 +1,3 @@
 
 include(init_fini.cmake)
-#include(append.cmake)
+include(append.cmake)

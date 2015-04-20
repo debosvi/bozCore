@@ -97,29 +97,75 @@ extern boz_connect_params_t boz_connect_params_zero;
 boz_connect_t boz_connect_new(const boz_connect_params_t* const p);
 
 /**
- * @brief Release a message.
+ * @brief Release a message from identifier.
  * @param[in]   id message identifier given with \ref boz_connect_new or \ref boz_connect_dup.
  * @return      operation status
  * @retval      0 on success.
  * @retval      -1 on failure, errno set accordingly.
  *
  * errno can be :
- * - ENOCONNECT if \p id is not a previously assigned identifier.
+ * - ENOMSG if \p id is not a previously assigned identifier.
  * - EIO if permanent failure.
  */ 
 int boz_connect_release(const boz_connect_t id);
 
 /**
- * @brief Get type of message.
+ * @brief Get type of message from identifier.
  * @param[in]   id message identifier given with \ref boz_connect_new or \ref boz_connect_dup.
  * @return      message type
  * @retval      valid type on success.
- * @retval      BOZ_CONNECT_TYPE_END_VALUE on failure, errno set accordingly.
+ * @retval      -1 on failure, errno set accordingly.
  *
  * errno can be :
- * - ENOCONNECT if \p id is not a previously assigned identifier.
+ * - ENOMSG if \p id is not a previously assigned identifier.
  */ 
 boz_connect_type_t boz_connect_type(const boz_connect_t id);
+
+/**
+ * @brief Get message file descriptor.
+ * @param[in]   id message identifier given with \ref boz_connect_new or \ref boz_connect_dup.
+ * @return      message file descriptor
+ * @retval      -1 on failure, errno set accordingly.
+ *
+ * errno can be :
+ * - ENOMSG if \p id is not a previously assigned identifier.
+ */ 
+int boz_connect_fd(const boz_connect_t id);
+
+/**
+ * @brief Get message poll events mask to get from identifier.
+ * @param[in]   id message identifier given with \ref boz_connect_new or \ref boz_connect_dup.
+ * @return      message poll events
+ * @retval      -1 on failure, errno set accordingly.
+ *
+ * errno can be :
+ * - ENOMSG if \p id is not a previously assigned identifier.
+ */ 
+int boz_connect_events(const boz_connect_t id);
+
+/**
+ * @brief Flush output data from identifier.
+ * @param[in]   id message identifier given with \ref boz_connect_new or \ref boz_connect_dup.
+ * @return      0 on success
+ * @retval      -1 on failure, errno set accordingly.
+ *
+ * errno can be :
+ * - ENOMSG if \p id is not a previously assigned identifier.
+ */ 
+int boz_connect_flush(const boz_connect_t id);
+
+/**
+ * @brief Put data on output from identifier.
+ * @param[in]   id message identifier given with \ref boz_connect_new or \ref boz_connect_dup.
+ * @param[in]   x start data buffer.
+ * @param[in]   len data length.
+ * @return      message poll events
+ * @retval      -1 on failure, errno set accordingly.
+ *
+ * errno can be :
+ * - ENOMSG if \p id is not a previously assigned identifier.
+ */ 
+int boz_connect_put(const boz_connect_t id, char const *x, unsigned int len);
 
 /**
  *\}

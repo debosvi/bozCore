@@ -4,22 +4,26 @@
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>
+#include <time.h>
 
-#include "bozCore/boz_msg.h"
+#include "bozCore/boz_connect.h"
 
-#define COUNT    10
-#define BUF_LG   65536
+#define COUNT   10
+#define BUF_LG  65536
+#define RSIZE   128
 
-#define SET_BUF   j=0; while(j++<BUF_LG) buf[j-1]=rand();
+#define SET_BUF   j=0; while(j++<lg) buf[j-1]=rand();
 
 int main(int ac, char **av) {
-    boz_msg_t m=BOZ_MSG_INVALID;
+    boz_connect_t m=BOZ_CONNECT_INVALID;
     unsigned int i=0, j=0;
     unsigned int ids[COUNT];
     unsigned int count=COUNT;
 
     if(ac>1)
         count=atoi(av[1]);
+
+    srand(time(NULL));
 
     fprintf(stderr, "Iterates with %u loops\n", count);
 
@@ -28,23 +32,28 @@ int main(int ac, char **av) {
     i=0;
     while(i<count) {
         char buf[BUF_LG];
-        boz_msg_params_t p;
-        p.size = 10*i;
-        p.type = BOZ_MSG_TYPE_RAW;
-        m=boz_msg_new(&p);
+        unsigned int lg=rand()%BUF_LG;
+        boz_connect_params_t p;
+
+        p.type = BOZ_CONNECT_TYPE_BASIC;
+        p.rsize = i*RSIZE;
+        p.fd = 1;
+        m=boz_connect_new(&p);
         ids[i] = m;
-        fprintf(stderr, "%s: new id (%u)\n", __PRETTY_FUNCTION__, m);
+        fprintf(stderr, "%s: new id (%u), put lg(%d)\n", __PRETTY_FUNCTION__, m, lg);
 
         SET_BUF
-        boz_msg_append(m, buf, BUF_LG);
+        boz_connect_put(m, buf, lg/2);
+        boz_connect_put(m, buf, lg/2);
+        boz_connect_flush(m);
         i++;
     }
 
     i=0;
-    while(i<(COUNT/2)) {
+    while(i<(count/2)) {
         m = ids[2*i];
         fprintf(stderr, "%s: release id (%u)\n", __PRETTY_FUNCTION__, m);
-        if(boz_msg_release(m) < 0)
+        if(boz_connect_release(m) < 0)
             fprintf(stderr, "%s: release id (%u), failed (%d/%s)\n", __PRETTY_FUNCTION__, m, errno, strerror(errno));
         i++;
     }

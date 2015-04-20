@@ -25,7 +25,7 @@ int main(int ac, char **av) {
     memset(ids, -1, COUNT*sizeof(unsigned int));
 
     i=0;
-    while(i<(COUNT/2)) {
+    while(i<(count/2)) {
         pipe(&fds[2*i]);
         fprintf(stderr, "%s: new fds (%d/%d)\n", __PRETTY_FUNCTION__, fds[2*i+0], fds[2*i+1]);
         i++;
@@ -44,7 +44,7 @@ int main(int ac, char **av) {
     }
 
     i=0;
-    while(i<(COUNT/2)) {
+    while(i<(count/2)) {
         m = ids[2*i];
         fprintf(stderr, "%s: release id (%u)\n", __PRETTY_FUNCTION__, m);
         if(boz_connect_release(m) < 0)
