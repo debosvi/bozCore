@@ -47,7 +47,7 @@ extern "C"
 
 #include <skalibs/gensetdyn.h>
 
-#include "boz_msg_queue.h"
+#include "bozCore/boz_msg_queue.h"
   
 /**
  * @brief Messsage internal type.

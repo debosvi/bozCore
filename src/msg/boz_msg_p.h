@@ -47,7 +47,7 @@ extern "C"
 
 #include <skalibs/gensetdyn.h>
 
-#include "boz_msg.h"
+#include "bozCore/boz_msg.h"
   
 /**
  * @brief Messsage internal type.

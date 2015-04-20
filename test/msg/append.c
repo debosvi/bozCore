@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <errno.h>
 
-#include "boz_msg.h"
+#include "bozCore/boz_msg.h"
 
 #define COUNT    10
 #define BUF_LG   65536
