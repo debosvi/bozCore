@@ -32,9 +32,23 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 #include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <errno.h>
 
 #include "boz_connect_p.h"
+
+typedef struct {
+    unsigned int max;
+} iter_max_stuff_t;
+
+static int iter_max (char *e, void *stuff) {
+    boz_connect_internal_t *p=(boz_connect_internal_t*)e;
+    iter_max_stuff_t *s = (iter_max_stuff_t*)stuff;
+    if((p->id!=BOZ_CONNECT_INVALID) && (unsigned int)p->id > s->max)
+        s->max = p->id;
+    return 1;
+}
 
 int boz_connect_release(const boz_connect_t id) {
     boz_connect_internal_t *p=NULL;
@@ -47,8 +61,16 @@ int boz_connect_release(const boz_connect_t id) {
         
     bufalloc_free(&p->d_out);
     free(p->b_in);
+    if(fcntl(p->params.fd, F_GETFD)>0)
+        close(p->params.fd);
     p->b_in=0;
     (*p) = boz_connect_internal_zero;
+
+    {
+        iter_max_stuff_t stuff = { 0 };
+        gensetdyn_iter(&boz_connect_g.storage, iter_max, &stuff);
+        boz_connect_g.max=stuff.max;
+    }
 
     gensetdyn_delete(&boz_connect_g.storage, id);
 

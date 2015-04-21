@@ -9,7 +9,7 @@
 #include "bozCore/boz_connect.h"
 
 #define COUNT   10
-#define BUF_LG  65536
+#define BUF_LG  236
 #define RSIZE   128
 
 #define SET_BUF   j=0; while(j++<lg) buf[j-1]=rand();
@@ -34,10 +34,13 @@ int main(int ac, char **av) {
         char buf[BUF_LG];
         unsigned int lg=rand()%BUF_LG;
         boz_connect_params_t p;
+        int fds[2];
+
+        pipe(fds);
 
         p.type = BOZ_CONNECT_TYPE_BASIC;
         p.rsize = i*RSIZE;
-        p.fd = 10;
+        p.fd = fds[1];
         m=boz_connect_new(&p);
         ids[i] = m;
         fprintf(stderr, "%s: new id (%u), put lg(%d)\n", __PRETTY_FUNCTION__, m, lg);
@@ -50,18 +53,20 @@ int main(int ac, char **av) {
             fprintf(stderr, "%s: new id (%u), events 2(%d)\n", __PRETTY_FUNCTION__, m, boz_connect_events(m));
             boz_connect_put(m, buf, lg/2);
             fprintf(stderr, "%s: new id (%u), events 3(%d)\n", __PRETTY_FUNCTION__, m, boz_connect_events(m));
-            //boz_connect_flush(m);
+            boz_connect_flush(m);
         }
         i++;
     }
 
-    i=0;
-    while(i<(count/2)) {
-        m = ids[2*i];
+    i=count/2;
+    while(i) {
+        m = ids[2*i-1];
         fprintf(stderr, "%s: release id (%u)\n", __PRETTY_FUNCTION__, m);
         if(boz_connect_release(m) < 0)
             fprintf(stderr, "%s: release id (%u), failed (%d/%s)\n", __PRETTY_FUNCTION__, m, errno, strerror(errno));
-        i++;
+        else
+            fprintf(stderr, "%s: id (%u), fd(%d)\n", __PRETTY_FUNCTION__, m, boz_connect_fd(m));
+        i--;
     }
 
     exit(EXIT_SUCCESS);
