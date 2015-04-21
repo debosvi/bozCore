@@ -22,7 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /*!
- * \file        boz_connect_put.c
+ * \file        boz_connect_yield.c
  * \brief       Message type implementation.
  * \version     0.1
  * \date        2013/01/14
@@ -33,23 +33,18 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <errno.h>
 
-#include "skalibs/iopause.h"
 #include "boz_connect_p.h"
 
-int boz_connect_put(const boz_connect_t id, char const *x, unsigned int len) {
+int boz_connect_yield(const boz_connect_t id) {
     boz_connect_internal_t *p=NULL;
-
-    if(!x || !len)
-        return (errno=EFAULT,-1);
  
     BOZ_CONNECT_EMPIRIC_BAD_ID_TEST
 
     p = GENSETDYN_P(boz_connect_internal_t, &boz_connect_g.storage, id);
     if(p->id != id)
         return (errno=ENOMSG,-1);
-    if(p->params.type == BOZ_CONNECT_TYPE_READ_ONLY)
-        return (errno=ENOSYS,-1);
-        
-    return bufalloc_put(&p->d_out, x, len);
+    
+    bufalloc_shrink(&p->d_out);    
+    return (errno=0,0);
 }
 

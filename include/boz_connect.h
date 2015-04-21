@@ -162,7 +162,7 @@ int boz_connect_flush(const boz_connect_t id);
  * @param[in]   id message identifier given with \ref boz_connect_new or \ref boz_connect_dup.
  * @param[in]   x start data buffer.
  * @param[in]   len data length.
- * @return      message poll events
+ * @return      0 on success
  * @retval      -1 on failure, errno set accordingly.
  *
  * errno can be :
@@ -171,6 +171,17 @@ int boz_connect_flush(const boz_connect_t id);
  * - EFAULT if \p x or \p len is null.
  */ 
 int boz_connect_put(const boz_connect_t id, char const *x, unsigned int len);
+
+/**
+ * @brief Optimse internal usage from identifier.
+ * @param[in]   id message identifier given with \ref boz_connect_new or \ref boz_connect_dup.
+ * @return      0 on success
+ * @retval      -1 on failure, errno set accordingly.
+ *
+ * errno can be :
+ * - ENOMSG if \p id is not a previously assigned identifier.
+ */ 
+int boz_connect_yield(const boz_connect_t id);
 
 /**
  *\}
