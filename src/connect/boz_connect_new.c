@@ -48,6 +48,8 @@ boz_connect_t boz_connect_new(const boz_connect_params_t* const p) {
     
     switch(p->type) {
     case BOZ_CONNECT_TYPE_BASIC: 
+    case BOZ_CONNECT_TYPE_READ_ONLY: 
+    case BOZ_CONNECT_TYPE_WRITE_ONLY: 
         break;
     default: 
         return (errno=EINVAL,-1);

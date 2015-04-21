@@ -48,7 +48,9 @@ extern "C"
  * @brief Defines the kind of message.
  */
 typedef enum {
-    BOZ_CONNECT_TYPE_BASIC=0,	/*!< Basic input/output connection. */
+    BOZ_CONNECT_TYPE_BASIC=0,	    /*!< Input/output connection. */
+    BOZ_CONNECT_TYPE_READ_ONLY,	    /*!< Input only connection. */
+    BOZ_CONNECT_TYPE_WRITE_ONLY,	/*!< Output connection. */
     BOZ_CONNECT_TYPE_END_VALUE
 } boz_connect_type_t;
 
@@ -151,6 +153,7 @@ int boz_connect_events(const boz_connect_t id);
  *
  * errno can be :
  * - ENOMSG if \p id is not a previously assigned identifier.
+ * - ENOSYS if \p id is open as BOZ_CONNECT_TYPE_READ_ONLY.
  */ 
 int boz_connect_flush(const boz_connect_t id);
 
@@ -164,6 +167,8 @@ int boz_connect_flush(const boz_connect_t id);
  *
  * errno can be :
  * - ENOMSG if \p id is not a previously assigned identifier.
+ * - ENOSYS if \p id is open as BOZ_CONNECT_TYPE_READ_ONLY.
+ * - EFAULT if \p x or \p len is null.
  */ 
 int boz_connect_put(const boz_connect_t id, char const *x, unsigned int len);
 

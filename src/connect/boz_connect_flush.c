@@ -43,6 +43,8 @@ int boz_connect_flush(const boz_connect_t id) {
     p = GENSETDYN_P(boz_connect_internal_t, &boz_connect_g.storage, id);
     if(p->id != id)
         return (errno=ENOMSG,-1);
+    if(p->params.type == BOZ_CONNECT_TYPE_READ_ONLY)
+        return (errno=ENOSYS,-1);
         
     return bufalloc_flush(&p->d_out);
 }
