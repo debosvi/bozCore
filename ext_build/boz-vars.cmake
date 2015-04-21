@@ -43,13 +43,13 @@ add_definitions(-include ${CMAKE_BINARY_DIR}/config/config.h )
 endif()
 
 add_definitions(-std=c99)
-add_definitions(-Wall -Wextra)
+add_definitions(-Wall  -Wextra)
 
 set(CMAKE_C_FLAGS_DEBUG "-O0 -ggdb")
 set(CMAKE_C_FLAGS_RELEASE "-O2 -Werror")
 
 set(CMAKE_C_FLAGS "-Wmissing-prototypes -Wbad-function-cast -Wshadow -Wfloat-equal")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wswitch-default")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wswitch-default -Wno-unused-result")
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wdeclaration-after-statement")
 add_definitions(-Wmissing-declarations -Wwrite-strings )
 add_definitions(-Wunknown-pragmas)
