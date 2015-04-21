@@ -54,6 +54,7 @@ int main(int ac, char **av) {
             boz_connect_put(m, buf, lg/2);
             fprintf(stderr, "%s: new id (%u), events 3(%d)\n", __PRETTY_FUNCTION__, m, boz_connect_events(m));
             boz_connect_flush(m);
+            boz_connect_yield(m);
         }
         i++;
     }
