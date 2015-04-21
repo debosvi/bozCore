@@ -38,6 +38,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 int boz_connect_fd(const boz_connect_t id) {
     boz_connect_internal_t *p=NULL;
 
+    BOZ_CONNECT_EMPIRIC_BAD_ID_TEST
+
     p = GENSETDYN_P(boz_connect_internal_t, &boz_connect_g.storage, id);
     if(p->id != id)
         return (errno=ENOMSG,-1);

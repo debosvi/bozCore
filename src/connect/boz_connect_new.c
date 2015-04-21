@@ -59,6 +59,9 @@ boz_connect_t boz_connect_new(const boz_connect_params_t* const p) {
     if(!gensetdyn_new(&boz_connect_g.storage, &id))
         return (errno=ENOSPC,-1);
 
+    if(boz_connect_g.max<id)
+        boz_connect_g.max=id;
+
     pi = (boz_connect_internal_t*)gensetdyn_p(&boz_connect_g.storage, id);
     (*pi) = boz_connect_internal_zero;
     pi->id = id;

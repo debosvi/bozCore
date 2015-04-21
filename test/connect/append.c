@@ -37,15 +37,21 @@ int main(int ac, char **av) {
 
         p.type = BOZ_CONNECT_TYPE_BASIC;
         p.rsize = i*RSIZE;
-        p.fd = 1;
+        p.fd = 10;
         m=boz_connect_new(&p);
         ids[i] = m;
         fprintf(stderr, "%s: new id (%u), put lg(%d)\n", __PRETTY_FUNCTION__, m, lg);
 
-        SET_BUF
-        boz_connect_put(m, buf, lg/2);
-        boz_connect_put(m, buf, lg/2);
-        boz_connect_flush(m);
+        if(m!=BOZ_CONNECT_INVALID) {
+            fprintf(stderr, "%s: new id (%u), fd(%d)\n", __PRETTY_FUNCTION__, m, boz_connect_fd(m));
+            SET_BUF
+                fprintf(stderr, "%s: new id (%u), events 1(%d)\n", __PRETTY_FUNCTION__, m, boz_connect_events(m));
+            boz_connect_put(m, buf, lg/2);
+            fprintf(stderr, "%s: new id (%u), events 2(%d)\n", __PRETTY_FUNCTION__, m, boz_connect_events(m));
+            boz_connect_put(m, buf, lg/2);
+            fprintf(stderr, "%s: new id (%u), events 3(%d)\n", __PRETTY_FUNCTION__, m, boz_connect_events(m));
+            //boz_connect_flush(m);
+        }
         i++;
     }
 

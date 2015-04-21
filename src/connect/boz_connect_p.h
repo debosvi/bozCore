@@ -75,12 +75,15 @@ extern boz_connect_internal_t boz_connect_internal_zero;
  */
 typedef struct {
     gensetdyn storage;      /*!< messages storage. */
+    unsigned int max;       /*!< maximum id created */
 } boz_connect_glob_t;
 
 /**
  * @brief Messsage global type initializer.
  */
-#define BOZ_CONNECT_GLOB_ZERO { .storage=GENSETDYN_ZERO }
+#define BOZ_CONNECT_GLOB_ZERO { .storage=GENSETDYN_ZERO, .max=0 }
+
+#define BOZ_CONNECT_EMPIRIC_BAD_ID_TEST if((id==BOZ_CONNECT_INVALID) || ((unsigned int)id>boz_connect_g.max)) return(errno=ENOMSG,-1);
 
 /**
  * @brief Messsage global type instance.
