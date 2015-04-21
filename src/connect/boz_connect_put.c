@@ -33,7 +33,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <errno.h>
 
-#include "skalibs/iopause.h"
 #include "boz_connect_p.h"
 
 int boz_connect_put(const boz_connect_t id, char const *x, unsigned int len) {

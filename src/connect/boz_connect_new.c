@@ -49,7 +49,9 @@ boz_connect_t boz_connect_new(const boz_connect_params_t* const p) {
     switch(p->type) {
     case BOZ_CONNECT_TYPE_BASIC: 
     case BOZ_CONNECT_TYPE_READ_ONLY: 
+        break;
     case BOZ_CONNECT_TYPE_WRITE_ONLY: 
+        pp->rsize=0;
         break;
     default: 
         return (errno=EINVAL,-1);
@@ -75,7 +77,8 @@ boz_connect_t boz_connect_new(const boz_connect_params_t* const p) {
         return (errno=ENOSPC,-1);
 
     pi->b_in = buf;
-    buffer_init(&pi->d_in, buffer_read, pi->params.fd, pi->b_in, pi->params.rsize);
+    if(pp->rsize)
+        buffer_init(&pi->d_in, buffer_read, pi->params.fd, pi->b_in, pi->params.rsize);
     bufalloc_init(&pi->d_out, fd_write, pi->params.fd);
 
     return (errno=0,id);

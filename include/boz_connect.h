@@ -73,8 +73,8 @@ typedef int boz_connect_t;
  */
 typedef struct{
     boz_connect_type_t  type;       /*!< Type of the messages managed by the queue. */
-    int             	fd;         /*!< File descriptor onto read/write. */
-    int             	rsize;      /*!< Size of messages to be read. */
+    int                 fd;         /*!< File descriptor onto read/write. */
+    unsigned int        rsize;      /*!< Size of messages to be read. */
 } boz_connect_params_t;
 #define BOZ_CONNECT_PARAMS_ZERO {   \
     .type=BOZ_CONNECT_TYPE_BASIC,   \
@@ -182,6 +182,21 @@ int boz_connect_put(const boz_connect_t id, char const *x, unsigned int len);
  * - ENOMSG if \p id is not a previously assigned identifier.
  */ 
 int boz_connect_yield(const boz_connect_t id);
+
+/**
+ * @brief Get data on input from identifier.
+ * @param[in]   id message identifier given with \ref boz_connect_new or \ref boz_connect_dup.
+ * @param[in]   x start data buffer.
+ * @param[in]   max data length.
+ * @return      >0 data retrieved
+ * @retval      -1 on failure, errno set accordingly.
+ *
+ * errno can be :
+ * - ENOMSG if \p id is not a previously assigned identifier.
+ * - ENOSYS if \p id is open as BOZ_CONNECT_TYPE_WRITE_ONLY.
+ * - EFAULT if \p x or \p len is null.
+ */ 
+int boz_connect_get(const boz_connect_t id, char* x, unsigned int max);
 
 /**
  *\}

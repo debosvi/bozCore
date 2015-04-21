@@ -22,7 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /*!
- * \file        boz_connect_events.c
+ * \file        boz_connect_get.c
  * \brief       Message type implementation.
  * \version     0.1
  * \date        2013/01/14
@@ -33,25 +33,28 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <errno.h>
 
-#include "skalibs/iopause.h"
 #include "boz_connect_p.h"
 
-int boz_connect_events(const boz_connect_t id) {
+int boz_connect_get(const boz_connect_t id, char *x, unsigned int max) {
     boz_connect_internal_t *p=NULL;
-    int events=0;
+    unsigned int len=0;
 
+    if(!x || !max)
+        return (errno=EFAULT,-1);
+ 
     BOZ_CONNECT_EMPIRIC_BAD_ID_TEST
 
     p = GENSETDYN_P(boz_connect_internal_t, &boz_connect_g.storage, id);
     if(p->id != id)
         return (errno=ENOMSG,-1);
+    if(p->params.type == BOZ_CONNECT_TYPE_WRITE_ONLY)
+        return (errno=ENOSYS,-1);
+        
+    if(buffer_fill(&p->d_in))
+        len=buffer_len(&p->d_in);
 
-    if((p->params.type == BOZ_CONNECT_TYPE_BASIC) || (p->params.type == BOZ_CONNECT_TYPE_WRITE_ONLY))
-        events = (bufalloc_len(&p->d_out) ? IOPAUSE_WRITE : events);
-
-    if((p->params.type == BOZ_CONNECT_TYPE_BASIC) || (p->params.type == BOZ_CONNECT_TYPE_READ_ONLY))
-        events |= IOPAUSE_READ;
-    
-    return (errno=0, events);
+    if(len>max) len=max;
+        
+    return buffer_get(&p->d_in, x, len);
 }
 

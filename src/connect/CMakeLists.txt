@@ -11,6 +11,7 @@ set(SOURCES
     boz_connect_flush.c
     boz_connect_put.c
     boz_connect_yield.c
+    boz_connect_get.c
     )
     
 add_library(${BOZ_MSG_LIB} STATIC
