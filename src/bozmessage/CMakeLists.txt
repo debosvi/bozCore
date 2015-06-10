@@ -10,7 +10,7 @@ set(SOURCES
     bozmessage_receiver_free.c
     bozmessage_receiver_init.c
     bozmessage_sender_1.c
-#    bozmessage_sender_flush.c
+    bozmessage_sender_flush.c
     bozmessage_sender_free.c
 #    bozmessage_sender_getfd.c
     bozmessage_sender_init.c

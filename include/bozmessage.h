@@ -44,9 +44,9 @@ typedef struct bozmessage_sender_s bozmessage_sender_t, *bozmessage_sender_t_ref
 struct bozmessage_sender_s {
     int fd ;
     stralloc data ;
-    genalloc offsets ; /* diuint */
-    unsigned int head ;
-    unsigned int shorty ;
+    genalloc offsets ;      /* unsigned int */
+    unsigned int head ;     /* chunk index to send */
+    unsigned int shorty ;   /* unsent data length in current chunk */
 } ;
 #define BOZMESSAGE_SENDER_ZERO BOZMESSAGE_SENDER_INIT(-1)
 #define BOZMESSAGE_SENDER_INIT(s) { .fd = (s), .data = STRALLOC_ZERO, .offsets = GENALLOC_ZERO, .head = 0, .shorty = 0 }

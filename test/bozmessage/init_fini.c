@@ -28,11 +28,15 @@ int main(int ac, char **av) {
     bozmessage_put(&s, &m);   
 
     bozmessage_unput(&s);   
-//    bozmessage_sender_flush(&s);   
 
+    m.s = "toto is alive now";
+    m.len = 17;
+    bozmessage_put(&s, &m);   
+
+    bozmessage_sender_flush(&s);   
+    bozmessage_sender_flush(&s);   
 
     bozmessage_sender_free(&s);
-
 
     exit(EXIT_SUCCESS);
 }
