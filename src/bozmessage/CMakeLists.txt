@@ -2,7 +2,6 @@
 set(BOZ_MESSAGE_LIB bozmessage)
 
 set(SOURCES
-#    bozmessage_drop.c
 #    bozmessage_handle.c
     bozmessage_put.c
 #    bozmessage_receive.c

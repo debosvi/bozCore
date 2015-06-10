@@ -23,8 +23,6 @@ struct bozmessage_s {
 #define BOZMESSAGE_ZERO { .s = 0, .len = 0 }
 extern bozmessage_t const bozmessage_zero ;
 
-extern void bozmessage_drop (bozmessage_t const *) ;
-
 typedef struct bozmessage_v_s bozmessage_v_t, *bozmessage_v_t_ref ;
 struct bozmessage_v_s {
     siovec_t *v ;
