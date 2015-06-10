@@ -11,9 +11,9 @@ set(SOURCES
     bozmessage_sender_1.c
     bozmessage_sender_flush.c
     bozmessage_sender_free.c
-#    bozmessage_sender_getfd.c
+    bozmessage_sender_getfd.c
     bozmessage_sender_init.c
-#    bozmessage_sender_timed_flush.c
+    bozmessage_sender_timed_flush.c
     bozmessage_sender_x.c
     bozmessage_sender_zero.c
 #    bozmessage_timed_handle.c

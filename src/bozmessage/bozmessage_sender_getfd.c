@@ -1,8 +1,7 @@
 /* ISC license. */
 
-#include <skalibs/unixmessage.h>
+#include <bozCore/bozmessage.h>
 
-int unixmessage_sender_getfd (unixmessage_sender_t const *b)
-{
-  return b->fd ;
+int bozmessage_sender_getfd (bozmessage_sender_t const *b) {
+    return b->fd ;
 }
