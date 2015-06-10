@@ -45,9 +45,11 @@ struct bozmessage_sender_s {
     int fd ;
     stralloc data ;
     genalloc offsets ; /* diuint */
+    unsigned int head ;
+    unsigned int shorty ;
 } ;
 #define BOZMESSAGE_SENDER_ZERO BOZMESSAGE_SENDER_INIT(-1)
-#define BOZMESSAGE_SENDER_INIT(s) { .fd = (s), .data = STRALLOC_ZERO, .offsets = GENALLOC_ZERO }
+#define BOZMESSAGE_SENDER_INIT(s) { .fd = (s), .data = STRALLOC_ZERO, .offsets = GENALLOC_ZERO, .head = 0, .shorty = 0 }
 
 extern bozmessage_sender_t const bozmessage_sender_zero ;
 extern void bozmessage_sender_init (bozmessage_sender_t *, int) ;
@@ -61,9 +63,7 @@ extern int bozmessage_put_and_close (bozmessage_sender_t *, bozmessage_t const *
 extern int bozmessage_putv_and_close (bozmessage_sender_t *, bozmessage_v_t const *) ;
 #define bozmessage_putv(b, m) bozmessage_putv_and_close(b, m)
 
-extern int bozmessage_unput_and_maybe_drop (bozmessage_sender_t *, int) ;
-#define bozmessage_unput(b) bozmessage_unput_and_maybe_drop((b), 0)
-#define bozmessage_unput_and_drop(b) bozmessage_unput_and_maybe_drop((b), 1)
+extern int bozmessage_unput (bozmessage_sender_t *) ;
 
 extern int bozmessage_sender_flush (bozmessage_sender_t *) ;
 extern int bozmessage_sender_timed_flush (bozmessage_sender_t *, tain_t const *, tain_t *) ;

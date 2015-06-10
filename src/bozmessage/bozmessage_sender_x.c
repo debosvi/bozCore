@@ -2,6 +2,6 @@
 
 /* MT-unsafe */
 
-#include <skalibs/unixmessage.h>
+#include <bozCore/bozmessage.h>
 
-unixmessage_sender_t unixmessage_sender_x_ = UNIXMESSAGE_SENDER_ZERO ;
+bozmessage_sender_t bozmessage_sender_x_ = BOZMESSAGE_SENDER_ZERO ;

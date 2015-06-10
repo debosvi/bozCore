@@ -13,44 +13,23 @@
 #include <skalibs/allreadwrite.h>
 #include <skalibs/genalloc.h>
 #include <skalibs/djbunix.h>
-#include <skalibs/unixmessage.h>
+#include <bozCore/bozmessage.h>
 
- /* MacOS X tries hard to be POSIX-compliant... and fails. */
-#ifndef MSG_NOSIGNAL
-#define MSG_NOSIGNAL 0
-#endif
+#define MSG_MAGIC ((unsigned int)0xA55A)
 
- /*
-    XXX: sendmsg/recvmsg is badly, badly specified.
-    XXX: We assume ancillary data is attached to the first byte.
- */
-
-int unixmessage_sender_flush (unixmessage_sender_t *b)
+int bozmessage_sender_flush (bozmessage_sender_t *b)
 {
-  diuint last = { .left = b->data.len, .right = genalloc_len(int, &b->fds) } ;
-  diuint *offsets = genalloc_s(diuint, &b->offsets) ;
-  unsigned int n = genalloc_len(diuint, &b->offsets) ;
-  register int r ;
+  unsigned int last = b->data.len ;
+  unsigned int *offsets = genalloc_s(unsigned int, &b->offsets) ;
+  unsigned int n = genalloc_len(unsigned int, &b->offsets) ;
+  register int r = 0 ;
 
   if (b->shorty) /* we had a short write, gotta send the remainder first */
   {
-    diuint *next = b->head+1 < n ? offsets + b->head+1 : &last ;
-    unsigned int len = next->left - offsets[b->head].left ;
+    unsigned int *next = b->head+1 < n ? offsets + b->head+1 : &last ;
+    unsigned int len = next - offsets[b->head] ;
     if (b->shorty <= len)
-      r = fd_write(b->fd, b->data.s + offsets[b->head].left + (len - b->shorty), b->shorty) ;
-    else
-    {
-      unsigned int nfds = next->right - offsets[b->head].right ;
-      char pack[6] ;
-      struct iovec v[2] =
-      {
-        { .iov_base = pack + 6 - (b->shorty - len), .iov_len = b->shorty - len },
-        { .iov_base = b->data.s + offsets[b->head].left, .iov_len = len }
-      } ;
-      uint32_pack_big(pack, (uint32)len) ;
-      uint16_pack_big(pack + 4, (uint16)nfds) ;
-      r = fd_writev(b->fd, v, 2) ;
-    }
+      r = fd_write(b->fd, b->data.s + offsets[b->head] + (len - b->shorty), b->shorty) ;
     if (r <= 0) return 0 ;
     b->shorty -= r ;
     if (b->shorty) return (errno = EWOULDBLOCK, 0) ;
@@ -58,7 +37,7 @@ int unixmessage_sender_flush (unixmessage_sender_t *b)
 
   for (; b->head < n ; b->head++)
   {
-    diuint *next = b->head+1 < n ? offsets + b->head+1 : &last ;
+    unsigned int *next = b->head+1 < n ? offsets + b->head+1 : &last ;
     unsigned int len = next->left - offsets[b->head].left ;
     unsigned int nfds = next->right - offsets[b->head].right ;
     char pack[6] ;
@@ -115,7 +94,7 @@ int unixmessage_sender_flush (unixmessage_sender_t *b)
   }
   b->data.len = 0 ;
   genalloc_setlen(int, &b->fds, 0) ;
-  genalloc_setlen(diuint, &b->offsets, 0) ;
+  genalloc_setlen(unsigned int, &b->offsets, 0) ;
   b->head = 0 ;
   return 1 ;
 }

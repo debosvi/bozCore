@@ -1,5 +1,5 @@
 /* ISC license. */
 
-#include <skalibs/unixmessage.h>
+#include <bozCore/bozmessage.h>
 
-unixmessage_sender_t const unixmessage_sender_zero = UNIXMESSAGE_SENDER_ZERO ;
+bozmessage_sender_t const bozmessage_sender_zero = BOZMESSAGE_SENDER_ZERO ;
