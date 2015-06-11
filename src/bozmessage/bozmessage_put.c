@@ -6,12 +6,7 @@
 #include <skalibs/uint16.h>
 #include <skalibs/md5.h>
 #include <bozCore/bozmessage.h>
-
-#define PUT_HDR_MAGIC       ((uint16)0xF7A5)
-#define PUT_HDR_MAGIC_SIZE  (sizeof(uint16))
-#define PUT_HDR_LEN_SIZE    (sizeof(uint16))
-#define PUT_HDR_TOTAL_SIZE  (PUT_HDR_MAGIC_SIZE + PUT_HDR_LEN_SIZE)
-#define PUT_HASH_SIZE       (16)
+#include "bozmessage_internal.h"
 
 static uint16 g_put_hdr = PUT_HDR_MAGIC;
 

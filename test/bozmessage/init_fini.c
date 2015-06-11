@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <errno.h>
 
+#include "skalibs/tai.h"
 #include "bozCore/bozmessage.h"
 
 int g_pipe[2];
@@ -13,6 +14,8 @@ int main(int ac, char **av) {
     bozmessage_t m=BOZMESSAGE_ZERO;
     bozmessage_sender_t s=BOZMESSAGE_SENDER_ZERO;
     bozmessage_receiver_t *r=bozmessage_receiver_0;
+    siovec_t sio[3];
+    bozmessage_v_t mv=BOZMESSAGE_V_ZERO;
 
 //    int count=0;
 //
@@ -39,14 +42,37 @@ int main(int ac, char **av) {
     m.len = 17;
     bozmessage_put(&s, &m);   
 
-    bozmessage_sender_flush(&s);   
+    {
+        tain_t deadline;
+        tain_now_g();
+        tain_addsec_g(&deadline, 10);
+
+        bozmessage_sender_timed_flush_g(&s, &deadline);   
+    }
     bozmessage_sender_flush(&s);   
 
     m.s = 0;
     m.len = 0;
     bozmessage_receive(r, &m);   
+    bozmessage_receive(r, &m);   
+
+    sio[0].s = "First message";
+    sio[0].len = 13;
+    sio[1].s = "Second message";
+    sio[1].len = 14;
+    sio[2].s = "Third and final message";
+    sio[2].len = 23;
+    mv.v = sio;
+    mv.vlen=3;
+    bozmessage_putv(&s, &mv);   
+    bozmessage_sender_flush(&s);   
+    
+    bozmessage_receive(r, &m);   
+    bozmessage_receive(r, &m);   
+    bozmessage_receive(r, &m);   
 
     bozmessage_sender_free(&s);
+    bozmessage_receiver_free(r);
 
     exit(EXIT_SUCCESS);
 }
