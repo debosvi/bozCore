@@ -6,6 +6,6 @@
 #include <bozCore/bozmessage.h>
 
 void bozmessage_receiver_free (bozmessage_receiver_t *b) {
-  b->fd = -1 ;
+  b->mainb.fd = -1;
   stralloc_free(&b->maindata) ;
 }

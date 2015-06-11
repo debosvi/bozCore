@@ -2,9 +2,8 @@
 
 /* MT-unsafe */
 
-#include <skalibs/unixmessage.h>
+#include <bozCore/bozmessage.h>
 
-static char mainbuf[UNIXMESSAGE_BUFSIZE] ;
-static char auxbuf[UNIXMESSAGE_AUXBUFSIZE] ;
+static char mainbuf[BOZMESSAGE_BUFSIZE] ;
 
-unixmessage_receiver_t unixmessage_receiver_0_ = UNIXMESSAGE_RECEIVER_INIT(0, mainbuf, UNIXMESSAGE_BUFSIZE, auxbuf, UNIXMESSAGE_AUXBUFSIZE) ;
+bozmessage_receiver_t bozmessage_receiver_0_ = BOZMESSAGE_RECEIVER_INIT(0, mainbuf, BOZMESSAGE_BUFSIZE) ;

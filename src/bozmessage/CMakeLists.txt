@@ -4,8 +4,8 @@ set(BOZ_MESSAGE_LIB bozmessage)
 set(SOURCES
 #    bozmessage_handle.c
     bozmessage_put.c
-#    bozmessage_receive.c
-#    bozmessage_receiver_0.c
+    bozmessage_receive.c
+    bozmessage_receiver_0.c
     bozmessage_receiver_free.c
     bozmessage_receiver_init.c
     bozmessage_sender_1.c

@@ -3,9 +3,8 @@
 #ifndef BOZMESSAGE_H
 #define BOZMESSAGE_H
 
-#include <skalibs/uint32.h>
+#include <skalibs/uint16.h>
 #include <skalibs/buffer.h>
-#include <skalibs/cbuffer.h>
 #include <skalibs/gccattributes.h>
 #include <skalibs/stralloc.h>
 #include <skalibs/genalloc.h>
@@ -31,10 +30,8 @@ struct bozmessage_v_s {
 #define BOZMESSAGE_V_ZERO { .v = 0, .vlen = 0 }
 extern bozmessage_v_t const bozmessage_v_zero ;
 
-#define BOZMESSAGE_MAXSIZE (2U << 27)
-#define BOZMESSAGE_BUFSIZE 2048
-#define BOZMESSAGE_AUXBUFSIZE (sizeof(int) * BOZMESSAGE_MAXFDS + 1)
-
+#define BOZMESSAGE_MAXSIZE      (32768)
+#define BOZMESSAGE_BUFSIZE      (2048)
 
  /* Sender */
 
@@ -71,26 +68,23 @@ extern int bozmessage_sender_timed_flush (bozmessage_sender_t *, tain_t const *,
  /* Receiver */
 
 typedef struct bozmessage_receiver_s bozmessage_receiver_t, *bozmessage_receiver_t_ref ;
-struct bozmessage_receiver_s
-{
-  int fd ;
-  cbuffer_t mainb ;
+struct bozmessage_receiver_s {
+  buffer_t mainb ;
   stralloc maindata ;
-  uint32 mainlen ;
+  uint16 mainlen ;
 } ;
-#define BOZMESSAGE_RECEIVER_ZERO { .fd = -1, .mainb = CBUFFER_ZERO, .maindata = STRALLOC_ZERO, .mainlen = 0 }
+#define BOZMESSAGE_RECEIVER_ZERO { .mainb = CBUFFER_ZERO, .maindata = STRALLOC_ZERO, .mainlen = 0 }
 #define BOZMESSAGE_RECEIVER_INIT(d, mains, mainn) \
 { \
-  .fd = d, \
-  .mainb = CBUFFER_INIT(mains, mainn), \
+  .mainb = BUFFER_INIT(buffer_read, d, mains, mainn), \
   .maindata = STRALLOC_ZERO, \
   .mainlen = 0 \
 }
 extern int bozmessage_receiver_init (bozmessage_receiver_t *, int, char *, unsigned int) ;
 extern void bozmessage_receiver_free (bozmessage_receiver_t *) ;
-#define bozmessage_receiver_fd(b) ((b)->fd)
-#define bozmessage_receiver_isempty(b) (cbuffer_isempty(&(b)->mainb) && cbuffer_isempty(&(b)->auxb))
-#define bozmessage_receiver_isfull(b) (cbuffer_isfull(&(b)->mainb) || cbuffer_isfull(&(b)->auxb))
+#define bozmessage_receiver_fd(b) buffer_fd(&(b)->mainb)
+#define bozmessage_receiver_isempty(b) buffer_isempty(&(b)->mainb)
+#define bozmessage_receiver_isfull(b) buffer_isfull(&(b)->mainb) 
 
 extern int bozmessage_receive (bozmessage_receiver_t *, bozmessage_t *) ;
 extern int bozmessage_timed_receive (bozmessage_receiver_t *, bozmessage_t *, tain_t const *, tain_t *) ;
