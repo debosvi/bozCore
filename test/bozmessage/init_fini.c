@@ -6,9 +6,16 @@
 #include <errno.h>
 
 #include "skalibs/tai.h"
+#include "skalibs/djbunix.h"
 #include "bozCore/bozmessage.h"
 
-int g_pipe[2];
+static int g_pipe[2];
+
+static int myhandler(bozmessage_t const *m, void *p) {
+    (void)p;
+    m->s[m->len] = 0;
+    fprintf(stderr, "New message: %s\n", m->s);
+}
 
 int main(int ac, char **av) {
     bozmessage_t m=BOZMESSAGE_ZERO;
@@ -24,7 +31,7 @@ int main(int ac, char **av) {
 //
 //    fprintf(stderr, "Iterates with %u loops\n", count);
 
-    pipe(g_pipe);
+    pipenb(g_pipe);
     bozmessage_receiver_fd(r) = g_pipe[0];
     bozmessage_sender_fd(&s) = g_pipe[1];
 
@@ -67,9 +74,13 @@ int main(int ac, char **av) {
     bozmessage_putv(&s, &mv);   
     bozmessage_sender_flush(&s);   
     
-    bozmessage_receive(r, &m);   
-    bozmessage_receive(r, &m);   
-    bozmessage_receive(r, &m);   
+    {
+        tain_t deadline;
+        tain_now_g();
+        tain_addsec_g(&deadline, 10);
+
+        bozmessage_timed_handle_g(r, myhandler, 0, &deadline);   
+    }
 
     bozmessage_sender_free(&s);
     bozmessage_receiver_free(r);

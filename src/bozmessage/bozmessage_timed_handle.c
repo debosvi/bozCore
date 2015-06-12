@@ -3,28 +3,24 @@
 #include <skalibs/functypes.h>
 #include <skalibs/tai.h>
 #include <skalibs/unix-timed.h>
-#include <skalibs/unixmessage.h>
+#include <bozCore/bozmessage.h>
 
-typedef struct unixmessage_handler_blah_s unixmessage_handler_blah_t, *unixmessage_handler_blah_t_ref ;
-struct unixmessage_handler_blah_s
-{
-  unixmessage_receiver_t *b ;
-  unixmessage_handler_func_t *f ;
-  void *p ;
-} ;
+typedef struct bozmessage_handler_blah_s bozmessage_handler_blah_t, *bozmessage_handler_blah_t_ref ;
+struct bozmessage_handler_blah_s {
+    bozmessage_receiver_t *b ;
+    bozmessage_handler_func_t *f ;
+    void *p ;
+};
 
-static int getfd (unixmessage_handler_blah_t *blah)
-{
-  return unixmessage_receiver_fd(blah->b) ;
+static int getfd (bozmessage_handler_blah_t *blah) {
+    return bozmessage_receiver_fd(blah->b) ;
 }
 
-static int get (unixmessage_handler_blah_t *blah)
-{
-  return unixmessage_handle(blah->b, blah->f, blah->p) ;
+static int get (bozmessage_handler_blah_t *blah) {
+    return bozmessage_handle(blah->b, blah->f, blah->p) ;
 }
 
-int unixmessage_timed_handle (unixmessage_receiver_t *b, unixmessage_handler_func_t *f, void *p, tain_t const *deadline, tain_t *stamp)
-{
-  unixmessage_handler_blah_t blah = { .b = b, .f = f, .p = p } ;
-  return timed_get(&blah, (initfunc_t_ref)&getfd, (initfunc_t_ref)&get, deadline, stamp) ;
+int bozmessage_timed_handle (bozmessage_receiver_t *b, bozmessage_handler_func_t *f, void *p, tain_t const *deadline, tain_t *stamp) {
+    bozmessage_handler_blah_t blah = { .b = b, .f = f, .p = p } ;
+    return timed_get(&blah, (initfunc_t_ref)&getfd, (initfunc_t_ref)&get, deadline, stamp) ;
 }

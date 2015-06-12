@@ -32,6 +32,7 @@ extern bozmessage_v_t const bozmessage_v_zero ;
 
 #define BOZMESSAGE_MAXSIZE      (32768)
 #define BOZMESSAGE_BUFSIZE      (2048)
+#define BOZMESSAGE_MAXREADS     (32)
 
  /* Sender */
 
