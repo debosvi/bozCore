@@ -1,4 +1,35 @@
-/* ISC license. */
+// The MIT License (MIT)
+
+// Copyright (c) 2013 Vincent de RIBOU <belzo2005-dolphin@yahoo.fr>
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+// the Software, and to permit persons to whom the Software is furnished to do so,
+// subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+// FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+// COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+/*!
+ * \file        bozmessage.h
+ * \brief       boz message public APIs.
+ * \version     @bozmessage_VERSION@
+ * \date        2013/01/14
+ * \author      Vincent de RIBOU.
+ * \copyright   Aquaplouf Land.
+ *
+ * \brief Implements a message communication between 2 endpoints
+ *
+ */
 
 #ifndef BOZMESSAGE_H
 #define BOZMESSAGE_H
@@ -74,16 +105,19 @@ struct bozmessage_receiver_s {
   stralloc maindata ;
   uint16 mainlen ;
 } ;
-#define BOZMESSAGE_RECEIVER_ZERO { .mainb = CBUFFER_ZERO, .maindata = STRALLOC_ZERO, .mainlen = 0 }
+#define BOZMESSAGE_RECEIVER_ZERO { .mainb = BUFFER_ZERO, .maindata = STRALLOC_ZERO, .mainlen = 0 }
 #define BOZMESSAGE_RECEIVER_INIT(d, mains, mainn) \
 { \
   .mainb = BUFFER_INIT(buffer_read, d, mains, mainn), \
   .maindata = STRALLOC_ZERO, \
   .mainlen = 0 \
 }
+
+extern bozmessage_receiver_t const bozmessage_receiver_zero ;
 extern int bozmessage_receiver_init (bozmessage_receiver_t *, int, char *, unsigned int) ;
 extern void bozmessage_receiver_free (bozmessage_receiver_t *) ;
 #define bozmessage_receiver_fd(b) buffer_fd(&(b)->mainb)
+extern int bozmessage_receiver_getfd (bozmessage_receiver_t const *) gccattr_pure ;
 #define bozmessage_receiver_isempty(b) buffer_isempty(&(b)->mainb)
 #define bozmessage_receiver_isfull(b) buffer_isfull(&(b)->mainb) 
 

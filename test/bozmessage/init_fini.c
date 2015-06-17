@@ -15,6 +15,7 @@ static int myhandler(bozmessage_t const *m, void *p) {
     (void)p;
     m->s[m->len] = 0;
     fprintf(stderr, "New message: %s\n", m->s);
+    return 1;
 }
 
 int main(int ac, char **av) {

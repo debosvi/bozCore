@@ -8,6 +8,7 @@ set(SOURCES
     bozmessage_receiver_0.c
     bozmessage_receiver_free.c
     bozmessage_receiver_init.c
+    bozmessage_receiver_zero.c
     bozmessage_sender_1.c
     bozmessage_sender_flush.c
     bozmessage_sender_free.c
