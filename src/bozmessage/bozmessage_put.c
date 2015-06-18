@@ -25,7 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * \file        bozmessage_put.c
  * \brief       boz message put message to sender.
  * \version     0.1
- * \date        2013/01/14
+ * \date        2015/06/15
  * \author      Vincent de RIBOU.
  * \copyright   Aquaplouf Land.
  *

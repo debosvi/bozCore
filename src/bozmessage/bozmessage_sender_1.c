@@ -25,7 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * \file        bozmessage_sender_1.c
  * \brief       boz message stdout-like sender variable.
  * \version     0.1
- * \date        2013/01/14
+ * \date        2015/06/15
  * \author      Vincent de RIBOU.
  * \copyright   Aquaplouf Land.
  *
