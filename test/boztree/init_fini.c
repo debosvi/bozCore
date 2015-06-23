@@ -21,7 +21,7 @@ int main(int ac, char **av) {
     boztree_t t=BOZTREE_ZERO;
     mytree_t e;
     unsigned int found=0;
-    unsigned int i=0;
+    unsigned int i;
 //    int count=0;
 //
 //    if(ac>1)
@@ -31,15 +31,24 @@ int main(int ac, char **av) {
 
     BOZTREE_INIT(&t, mytree_t);
 
-    for(; i<MAX_INSERT; i++) {
+    for(i=0; i<MAX_INSERT; i++) {
         e.i = 0xFFAA5500 + i;
-        fprintf(stderr, "\ninsert id(%016x)\n", e.i);
+        fprintf(stderr, "\ninsert id(%016llx)\n", (long long int)e.i);
         memset(&e.x[0], 0, MAXBUF_SIZE);
         if(avltree_search(&t.a, &e.i, &found))
-            fprintf(stderr, "before insertion: found\n");
+            fprintf(stderr, "before insertion: found (SHOULD NOT BE PRINTED)\n");
         boztree_insert(&t, (boztree_id_t*)&e);
         if(avltree_search(&t.a, &e.i, &found))
             fprintf(stderr, "after insertion: found\n");
+        fprintf(stderr, "insert: tree total size: %lu\n", avltree_len(&t.a));
+    }
+
+    for(i=0; i<MAX_INSERT; i++) {
+        e.i = 0xFFAA5500 + i;
+        boztree_delete(&t, e.i);
+        if(avltree_search(&t.a, &e.i, &found))
+            fprintf(stderr, "after insertion: found (SHOULD NOT BE PRINTED)\n");
+        fprintf(stderr, "delete: tree total size: %lu\n", avltree_len(&t.a));
     }
     
     exit(EXIT_SUCCESS);

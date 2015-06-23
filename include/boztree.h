@@ -62,8 +62,8 @@ int boztree_init(boztree_t *t, const unsigned int se);
 int boztree_free(boztree_t *t);
 
 int boztree_insert(boztree_t *t, boztree_id_t const *e);
-int boztree_check(boztree_t *t, const unsigned int id);
-void* boztree_data(boztree_t *t, const unsigned int id);
-int boztree_delete(boztree_t *t, void const *e);
+int boztree_check(boztree_t *t, const uint64 id);
+void* boztree_data(boztree_t *t, const uint64 id);
+int boztree_delete(boztree_t *t, const uint64 id);
 
 #endif
