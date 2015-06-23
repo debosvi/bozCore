@@ -22,8 +22,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /*!
- * \file        boztree_internal.h
- * \brief       boz message internal stuffs.
+ * \file        boztree_init.c
+ * \brief       boz message receiver initialisation.
  * \version     0.1
  * \date        2015/06/15
  * \author      Vincent de RIBOU.
@@ -31,12 +31,20 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
 
-#ifndef _BOZTREE_INTERNAL_H_
-#define _BOZTREE_INTERNAL_H_
+#include "boztree_internal.h"
+#include "bozCore/boztree.h"
 
-#include <errno.h>
+int boztree_insert(boztree_t *t, boztree_id_t const *e) {
+    unsigned int n=0;
+    void *p;
+    if(!e) return (errno=EFAULT, -1);
+    if(avltree_search(&t->a, &e->i, &n)) return (errno=EEXIST, -1);
 
-extern void* boztree_dtok_f (unsigned int, void *);
-extern int boztree_cmp_f (void const *, void const *, void *);
+    if(!gensetdyn_new(&t->s, &n)) return (errno=ENOMEM, -1);
+    p = gensetdyn_p(&t->s, n);
+    memcpy(p, e, t->s.esize);
 
-#endif /* _BOZTREE_INTERNAL_H_ */
+    avltree_insert(&t->a, n);
+    
+    return 0;
+}

@@ -36,6 +36,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 int boztree_init (boztree_t *b, const unsigned int se) {
     gensetdyn_init(&b->s, se, 16, 3, 8);
-    avltree_init(&b->a, 16, 3, 8, boztree_dtok_f, boztree_cmp_f, 0);
+    avltree_init(&b->a, 16, 3, 8, boztree_dtok_f, boztree_cmp_f, &b->s);
     return 0;
 }

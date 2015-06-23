@@ -58,11 +58,12 @@ struct boztree_s {
 extern boztree_t const boztree_zero ;
 
 int boztree_init(boztree_t *t, const unsigned int se);
+#define BOZTREE_INIT(tree, type) boztree_init(tree, sizeof(type))
 int boztree_free(boztree_t *t);
 
-int boztree_add(boztree_t *t, void *e);
-int boztree_check(boztree_t *t, const unsigned int);
-void* boztree_elem(boztree_t *t, const unsigned int);
-int boztree_del(boztree_t *t, const unsigned int);
+int boztree_insert(boztree_t *t, boztree_id_t const *e);
+int boztree_check(boztree_t *t, const unsigned int id);
+void* boztree_data(boztree_t *t, const unsigned int id);
+int boztree_delete(boztree_t *t, void const *e);
 
 #endif

@@ -34,9 +34,19 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "boztree_internal.h"
 #include "bozCore/boztree.h"
 
+#ifdef BOZTREE_DEBUG
+#include <stdio.h>
+#endif
+
 #define ID_LESS(a,b) (((a)<(b)) ? -1 : ((b)<(a)))
 
 void* boztree_dtok_f (unsigned int d, void *x) {
-    (void)x ;
-    return d ;
+#ifdef BOZTREE_DEBUG
+    {
+        boztree_id_t *p = (boztree_id_t*)gensetdyn_p((gensetdyn*)x, d);
+        fprintf(stderr, "INFO: %s: %d/%016x\n", __PRETTY_FUNCTION__, d, (long long int)p->i);
+    }
+#endif
+
+    return (void *)&((boztree_id_t*)gensetdyn_p((gensetdyn*)x, d))->i;
 }

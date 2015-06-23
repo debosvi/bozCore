@@ -1,4 +1,8 @@
 
+if("${CMAKE_BUILD_TYPE}" STREQUAL "DEBUG")
+add_definitions(-DBOZTREE_DEBUG)
+endif()
+
 set(BOZ_TREE_LIB boztree)
 
 set(SOURCES
@@ -7,6 +11,7 @@ set(SOURCES
     boztree_free.c
     boztree_id_zero.c
     boztree_init.c
+    boztree_insert.c
     boztree_zero.c
     )
     
