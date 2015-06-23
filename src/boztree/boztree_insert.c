@@ -37,7 +37,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 int boztree_insert(boztree_t *t, boztree_id_t const *e) {
     unsigned int n=0;
     void *p;
-    if(!e) return (errno=EFAULT, -1);
+    if(!t) return (errno=EFAULT, -1);
+    if(!e) return (errno=EINVAL, -1);
     if(avltree_search(&t->a, &e->i, &n)) return (errno=EEXIST, -1);
 
     if(!gensetdyn_new(&t->s, &n)) return (errno=ENOMEM, -1);

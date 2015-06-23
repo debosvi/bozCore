@@ -44,7 +44,7 @@ void* boztree_dtok_f (unsigned int d, void *x) {
 #ifdef BOZTREE_DEBUG
     {
         boztree_id_t *p = (boztree_id_t*)gensetdyn_p((gensetdyn*)x, d);
-        fprintf(stderr, "INFO: %s: %d/%016x\n", __PRETTY_FUNCTION__, d, (long long int)p->i);
+        fprintf(stderr, "INFO: %s: %d/%016llx\n", __PRETTY_FUNCTION__, d, (long long int)p->i);
     }
 #endif
 

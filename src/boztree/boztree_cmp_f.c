@@ -44,7 +44,7 @@ int boztree_cmp_f (void const *a, void const *b, void *x) {
     register boztree_id_t const *aa = (boztree_id_t const *)a ;
     register boztree_id_t const *bb = (boztree_id_t const *)b ;
 #ifdef BOZTREE_DEBUG
-    fprintf(stderr, "INFO: %s: %016x/%016x\n", __PRETTY_FUNCTION__, (long long int)aa->i, (long long int)bb->i);
+    fprintf(stderr, "INFO: %s: %016llx/%016llx\n", __PRETTY_FUNCTION__, (long long int)aa->i, (long long int)bb->i);
 #endif
     (void)x ;
     return ID_LESS(aa->i, bb->i) ;
