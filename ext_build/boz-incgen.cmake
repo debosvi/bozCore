@@ -5,6 +5,7 @@ macro (BOZ_INCLUDE_GEN name major minor patch)
     set(header ${name}.h)
     message(STATUS "Generates header ${header}, version (${${name}_VERSION})")
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/${header} ${CMAKE_BINARY_DIR}/include/${PROJECT_NAME}/${header} @ONLY)
+    BOZ_INSTALL_HEADER(${CMAKE_BINARY_DIR}/include/${PROJECT_NAME}/${header})
 endmacro()
 
 
