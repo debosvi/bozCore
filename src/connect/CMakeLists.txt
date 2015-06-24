@@ -22,3 +22,5 @@ target_link_libraries(${BOZ_MSG_LIB}
     skarnet
     )
     
+BOZ_INSTALL_ITEM(${BOZ_MSG_LIB})
+

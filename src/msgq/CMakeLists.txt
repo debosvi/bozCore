@@ -16,3 +16,5 @@ target_link_libraries(${BOZ_MSG_LIB}
     bozmsg
     )
     
+BOZ_INSTALL_ITEM(${BOZ_MSG_LIB})
+

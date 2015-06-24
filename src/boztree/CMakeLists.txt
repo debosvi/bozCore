@@ -26,3 +26,5 @@ target_link_libraries(${BOZ_TREE_LIB}
     skarnet
     )
     
+
+BOZ_INSTALL_ITEM(${BOZ_TREE_LIB})

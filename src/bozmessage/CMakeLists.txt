@@ -33,3 +33,5 @@ target_link_libraries(${BOZ_MESSAGE_LIB}
     skarnet
     )
     
+
+BOZ_INSTALL_ITEM(${BOZ_MESSAGE_LIB})

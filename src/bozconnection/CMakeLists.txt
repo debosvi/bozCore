@@ -15,3 +15,4 @@ target_link_libraries(${BOZ_CONNECTION_LIB}
     bozmessage
     )
     
+BOZ_INSTALL_ITEM(${BOZ_CONNECTION_LIB})
