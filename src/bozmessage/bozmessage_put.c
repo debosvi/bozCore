@@ -76,16 +76,24 @@ int bozmessage_put_and_close (bozmessage_sender_t *b, bozmessage_t const *m) {
 int bozmessage_putv_and_close (bozmessage_sender_t *b, bozmessage_v_t const *m) {
     unsigned int len = 0 ;
     register unsigned int i = 0 ;
+    register char *p;
+
     for (; i < m->vlen ; i++)
-        len += PUT_HDR_TOTAL_SIZE + m->v[i].len + PUT_HASH_SIZE;
-    if (!reserve_and_copy(b, len))
+        len += m->v[i].len;
+
+    if (!reserve_and_copy(b, len + (PUT_HDR_TOTAL_SIZE + PUT_HASH_SIZE)))
         return 0 ;
+    
+    p = b->data.s + b->data.len;
+
+    byte_copy(p, PUT_HDR_MAGIC_SIZE, &g_put_hdr) ;
+    uint16_pack_big(p + PUT_HDR_MAGIC_SIZE, len) ;
+    p += PUT_HDR_TOTAL_SIZE;
     for (i = 0 ; i < m->vlen ; i++) {
-        byte_copy(b->data.s + b->data.len, PUT_HDR_MAGIC_SIZE, &g_put_hdr) ;
-        uint16_pack_big(b->data.s + b->data.len + PUT_HDR_MAGIC_SIZE, m->v[i].len) ;
-        byte_copy(b->data.s + b->data.len + PUT_HDR_TOTAL_SIZE, m->v[i].len, m->v[i].s) ;
-        b->data.len += m->v[i].len + PUT_HDR_TOTAL_SIZE ;
-        compute_hash(b, m->v[i].s, m->v[i].len);
+        byte_copy(p, m->v[i].len, m->v[i].s) ;
+        p+=m->v[i].len;
     }
+    b->data.len += len + PUT_HDR_TOTAL_SIZE ;
+    compute_hash(b, p-len, len);
     return 1 ;
 }
