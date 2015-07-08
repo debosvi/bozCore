@@ -22,7 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /*!
- * \file        boztree_init.c
+ * \file        boztree_insert.c
  * \brief       boz message receiver initialisation.
  * \version     0.1
  * \date        2015/06/15

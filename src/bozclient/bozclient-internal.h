@@ -22,7 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /*!
- * \file        bozclient_putv.c
+ * \file        bozclient-internal.h
  * \brief       boz message receiver receive function.
  * \version     0.1
  * \date        2015/06/15
