@@ -6,4 +6,5 @@ BOZ_INCLUDE_GEN(bozmessage 0 1 0)
 BOZ_INCLUDE_GEN(bozclient 0 1 0)
 BOZ_INCLUDE_GEN(bozconnection 0 1 0)
 BOZ_INCLUDE_GEN(boztree 0 1 0)
+BOZ_INCLUDE_GEN(bozancillary 0 1 0)
 
