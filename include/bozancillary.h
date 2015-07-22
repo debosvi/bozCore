@@ -64,6 +64,6 @@ extern int boz_ancil_send_fds (const int sock, const int const *fds, const unsig
  * 
  * If maximum fds reached, return \ref maxfds but still remains fds received but not filled into array.
  */ 
-extern int boz_ancil_recv_fds (const int sock, const int const *fds, const unsigned int maxfds);
+extern int boz_ancil_recv_fds (const int sock, int *fds, const unsigned int maxfds);
 
 #endif // BOZANCILLARY_H

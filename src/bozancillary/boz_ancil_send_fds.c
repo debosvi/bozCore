@@ -35,7 +35,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 int boz_ancil_send_fds (const int sock, const int const *fds, const unsigned int nfds) {
   char ancilbuf[CMSG_SPACE(nfds*sizeof(int))] ;
-  struct iovec v = { .iov_base = boz_ancil_identifier, .iov_len = BOZ_ANCIL_ID_LG } ;
+  struct iovec v = { .iov_base = (char*)boz_ancil_identifier, .iov_len = BOZ_ANCIL_ID_LG } ;
   struct msghdr msghdr =
   {
     .msg_name = 0,

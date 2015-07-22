@@ -33,7 +33,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "boz_ancillary_p.h"
 
-int boz_ancil_recv_fds (const int sock, const int const *fds, const unsigned int maxfds) {
+int boz_ancil_recv_fds (const int sock, int *fds, const unsigned int maxfds) {
   char ancilbuf[BOZ_ANCIL_RECV_MAXFDS*CMSG_SPACE(sizeof(int))] ;
   char s[BOZ_ANCIL_ID_LG] ;
   struct iovec v = { .iov_base = s, .iov_len = BOZ_ANCIL_ID_LG } ;
@@ -62,7 +62,7 @@ int boz_ancil_recv_fds (const int sock, const int const *fds, const unsigned int
   if (memcmp(s, boz_ancil_identifier, BOZ_ANCIL_ID_LG)) return (errno=EIO,-1) ;
   
   rnfds = (cmsg->cmsg_len-sizeof(*cmsg))/sizeof(int);
-  if(rnfds>maxfds) rnfds = maxdfs;
+  if(rnfds>maxfds) rnfds = maxfds;
   memcpy(fds, CMSG_DATA(cmsg), rnfds);
   return (errno=0,rnfds);
 

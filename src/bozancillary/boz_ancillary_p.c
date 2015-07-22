@@ -20,7 +20,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /*!
- * \file        boz_ancillary_p.h
+ * \file        boz_ancillary_p.c
  * \brief       boz ancillary public APIs.
  * \version     @BOZANCILLARY_VERSION@
  * \date        2015/07/22
@@ -31,15 +31,5 @@
  *
  */
 
-#ifndef BOZANCILLARY_PRIV_H
-#define BOZANCILLARY_PRIV_H
+const char* boz_ancil_identifier = "boz_ancillary_fds";
 
-#include <errno.h>
-#include <string.h>
-#include <sys/socket.h>
-#include <bozCore/bozancillary.h>
-
-extern const char* boz_ancil_identifier;
-#define BOZ_ANCIL_ID_LG   (17)
-
-#endif // BOZANCILLARY_PRIV_H
