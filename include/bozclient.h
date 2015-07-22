@@ -1,7 +1,7 @@
 /* ISC license. */
 
-#ifndef SKACLIENT_H
-#define SKACLIENT_H
+#ifndef BOZCLIENT_H
+#define BOZCLIENT_H
 
 #include <sys/types.h>
 #include <skalibs/kolbak.h>
@@ -128,4 +128,4 @@ extern bozmessage_handler_func_t bozclient_default_cb ;
 #define bozclient_aputv(a, m) bozmessage_putv(&(a)->asyncout, m)
 #define bozclient_aflush(a) bozmessage_sender_flush(&(a)->asyncout)
 
-#endif
+#endif // BOZCLIENT_H
