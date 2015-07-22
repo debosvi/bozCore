@@ -50,7 +50,7 @@ int boz_ancil_recv_fds (const int sock, int *fds, const unsigned int maxfds) {
   struct cmsghdr *cmsg = CMSG_FIRSTHDR(&msghdr) ;
   unsigned int rnfds;
   
-  if(maxfds>BOZ_ANCIL_RECV_MAXFDS) return (errno=ENOMEM, -1);
+  if( (maxfds>BOZ_ANCIL_RECV_MAXFDS) || !fds) return (errno=EINVAL, -1);
   
   cmsg->cmsg_len = msghdr.msg_controllen ;
   cmsg->cmsg_level = SOL_SOCKET ;
