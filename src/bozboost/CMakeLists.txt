@@ -2,6 +2,7 @@
 set(BOZ_BOOST_APP bozApp)
 
 set(SOURCES
+    bozAppAbstract.cpp
     bozApp.cpp
 	main.cpp
     )
