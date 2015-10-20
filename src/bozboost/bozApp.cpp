@@ -1,8 +1,8 @@
 
 #include "bozApp.hpp"
 
-bozApp::bozApp() {
-	std::cout << __PRETTY_FUNCTION__ << std::endl;
+bozApp::bozApp(const int val) : _val(val) {
+	std::cout << __PRETTY_FUNCTION__ << ", val: " << val << std::endl;
 	
 }
 
@@ -12,8 +12,8 @@ bozApp::~bozApp() {
 
 void bozApp::process(void) {
 	std::cout << __PRETTY_FUNCTION__ << std::endl;
-	sleep(5);
+	sleep(_val);
 	std::cout << __PRETTY_FUNCTION__ << "emit" << std::endl;
 	
-	this->_onChange(3);
+	this->_onChange(_val);
 }

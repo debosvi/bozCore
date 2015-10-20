@@ -7,10 +7,11 @@
 class bozApp : public bozAppAbstract {
 
 public:
-	bozApp();
+	bozApp(const int val=0);
 	~bozApp();
 	
 private:
+	int _val;
 	void process(void);
 
 };
