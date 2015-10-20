@@ -11,9 +11,9 @@ include(tools.cmake)
 
 include_directories(${CMAKE_BINARY_DIR}/include)
 
-add_subdirectory(include)
+# add_subdirectory(include)
 add_subdirectory(src)
-add_subdirectory(test)
+# add_subdirectory(test)
 
 add_test_if_enable(test BOZ_GLOBAL_TEST)
 

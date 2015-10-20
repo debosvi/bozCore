@@ -42,7 +42,7 @@ if(EXISTS "${LOAD_CONFIG_DIR}/Config.in")
 add_definitions(-include ${CMAKE_BINARY_DIR}/config/config.h )
 endif()
 
-add_definitions(-std=c99)
+# add_definitions(-std=c99)
 add_definitions(-Wall  -Wextra)
 
 set(CMAKE_C_FLAGS_DEBUG "-O0 -ggdb")
