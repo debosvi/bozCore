@@ -1,0 +1,10 @@
+License
+-------
+mep-logger is under several licences:
+- The source code is under LGPLv2.1 (GNU Lesser General Public License v2 (or 2.1)) - same license as log4c : see the /COPYING file
+- The library is also under OpenSSL license because the OpenSSL library is embedded statically: see the /LICENSE file
+
+Classification
+--------------
+The present software is not subject to the US Export Administration Regulations (no exportation license required)
+

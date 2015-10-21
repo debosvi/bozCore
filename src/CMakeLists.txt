@@ -8,3 +8,5 @@
 # add_subdirectory(boztree) 
 # add_subdirectory(bozancillary) 
 add_subdirectory(bozboost) 
+
+add_subdirectory(MA5G) 
