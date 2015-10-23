@@ -1,13 +1,14 @@
 
-#include "bozApp.hpp"
+#include "MA5G_Thread.hpp"
 
+using namespace Morpho::MA5G::Thread;
 
 class myProcessing {
 private:
 	boost::condition_variable cond;
 	boost::mutex mut;
 	int step;
-	bozApp appA,appB,appC;
+	MA5G_Thread appA,appB,appC;
 	
 public:
 	myProcessing() : step(0), appA(1), appB(2), appC(3)  {
