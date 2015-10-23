@@ -8,6 +8,7 @@ namespace Morpho {
 namespace MA5G {
 
 class MyAppClass  {
+	// ici on accède aux membres privés de la classe mère
 	friend class Morpho::MA5G::MyAppThread;
 	
 public:

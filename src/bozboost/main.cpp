@@ -10,6 +10,7 @@ int main(int ac, char **av) {
 	
 	mc.doIt();
 	
+	// avoind thread none completion
 	sleep(20);
 	
 	return 0;	

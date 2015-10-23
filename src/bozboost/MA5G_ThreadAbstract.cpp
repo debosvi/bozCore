@@ -4,6 +4,16 @@
 namespace Morpho {
 namespace MA5G {
 namespace Thread {
+	
+/**
+* \brief enumeration for Thread Priority
+*/
+enum Thread_priorites {
+	very_high_thread_priority = 40,
+	high_thread_priority = 35,
+	normal_thread_priority = 20,
+	low_thread_priority = 1
+};
 
 // constants and definitions
 int MA5G_ThreadAbstract::OneShot=0;
@@ -20,6 +30,19 @@ MA5G_ThreadAbstract::~MA5G_ThreadAbstract() {
 		delete _th;
 	}
 }
+
+int MA5G_ThreadAbstract::setSchedPriority(const MA5G_ThreadPriority prio) {
+	std::cerr << __PRETTY_FUNCTION__ << std::endl;
+	(void)prio;
+	return 0;
+}
+
+int MA5G_ThreadAbstract::setName(const char* const name) {
+	std::cerr << __PRETTY_FUNCTION__ << std::endl;
+	(void)name;
+	return 0;
+}
+
 
 int MA5G_ThreadAbstract::start(void) {
 	std::cerr << __PRETTY_FUNCTION__ << std::endl;

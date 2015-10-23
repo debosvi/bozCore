@@ -7,6 +7,14 @@
 namespace Morpho {
 namespace MA5G {
 namespace Thread {
+	
+typedef enum {
+	PRIORITY_VERY_HIGH = 0,
+	PRIORITY_HIGH,
+	PRIORITY_NORMAL,
+	PRIORITY_LOW,
+	PRIORITY_COUNT
+} MA5G_ThreadPriority;
 
 class MA5G_ThreadAbstract {
 
@@ -18,7 +26,9 @@ public:
 	// public APIs
 	int start(void);
 	int stop(void);
-
+	int setSchedPriority(const MA5G_ThreadPriority prio);
+	int setName(const char* const name);
+	
 	// constants and definitions
     static int OneShot;
     static int LongTerm;
