@@ -6,30 +6,19 @@ namespace MA5G {
 namespace Thread {
 
 // constants and definitions
-int OneShot=0;
-int LongTerm=1;
+int MA5G_ThreadAbstract::OneShot=0;
+int MA5G_ThreadAbstract::LongTerm=1;
 
 MA5G_ThreadAbstract::MA5G_ThreadAbstract(const int type) : _th(NULL), _type(type) {
-	std::cerr << __PRETTY_FUNCTION__ << std::endl;
-    _func = boost::bind(&MA5G_ThreadAbstract::defaultFunc, this, _1);
+	std::cerr << __PRETTY_FUNCTION__ << std::endl;    
 }
 
 MA5G_ThreadAbstract::~MA5G_ThreadAbstract() {
 	std::cerr << __PRETTY_FUNCTION__ << std::endl;
-    if(_th) delete _th;
-}
-
-int MA5G_ThreadAbstract::defaultFunc(void *arg) {
-	std::cerr << __PRETTY_FUNCTION__ << std::endl;
-	(void)arg;
-    return 0;
-}
-
-int MA5G_ThreadAbstract::setProcess(processFunc f) {
-	std::cerr << __PRETTY_FUNCTION__ << std::endl;
-	boost::lock_guard<boost::mutex> lock(_mut);
-    _func = f;
-    return 0;
+    if(_th) {
+		stop();
+		delete _th;
+	}
 }
 
 int MA5G_ThreadAbstract::start(void) {
@@ -42,6 +31,22 @@ int MA5G_ThreadAbstract::stop(void) {
 	std::cerr << __PRETTY_FUNCTION__ << std::endl;
 	_th->join();
     return 0;
+}
+
+int MA5G_ThreadAbstract::internalProcess(void) {
+	std::cerr << __PRETTY_FUNCTION__ << std::endl;
+	while (1) {
+		if(loopProcess() < 0)
+			break;
+		
+		if(_type==OneShot)
+			break;
+		
+		// any mechanism avoiding CPU load (active detection possible)
+		sleep(1);
+	}
+	
+	return 0;
 }
 
 } // namespace Thread;

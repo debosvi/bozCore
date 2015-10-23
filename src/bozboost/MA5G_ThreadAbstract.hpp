@@ -8,8 +8,6 @@ namespace Morpho {
 namespace MA5G {
 namespace Thread {
 
-typedef boost::function<int (void*)> processFunc;
-
 class MA5G_ThreadAbstract {
 
 public:
@@ -18,7 +16,6 @@ public:
 	~MA5G_ThreadAbstract();
 	
 	// public APIs
-	int setProcess(processFunc f);
 	int start(void);
 	int stop(void);
 
@@ -28,14 +25,14 @@ public:
 	
 private:
     // private members
-    processFunc _func;
     boost::mutex _mut;
 	boost::thread* _th;
 	int _type;
 
     // private APIs
     int defaultFunc(void*);
-    virtual int internalProcess(void) = 0;
+    virtual int internalProcess(void);
+    virtual int loopProcess(void) = 0;
     
 };
 

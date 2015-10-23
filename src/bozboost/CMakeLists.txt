@@ -3,7 +3,8 @@ set(BOZ_BOOST_APP bozApp)
 
 set(SOURCES
     MA5G_ThreadAbstract.cpp
-    MA5G_Thread.cpp
+    MyAppThread.cpp
+    MyAppClass.cpp
 	main.cpp
     )
     
