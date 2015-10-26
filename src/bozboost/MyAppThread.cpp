@@ -1,11 +1,20 @@
-
+/*!
+ * \file MyAppThread.cpp
+ * \brief Class describing specific threaded worker implementation.
+ * \author Vincent de RIBOU
+ * \version 0.1
+ */
+ 
 #include "MyAppThread.hpp"
 #include "MyAppClass.hpp"
 
+using namespace Morpho::MA5G::Thread;
+
 namespace Morpho {
 namespace MA5G {
-
-MyAppThread::MyAppThread(MyAppClass* parent) : MA5G_ThreadAbstract(LongTerm), 
+namespace Example {
+		
+MyAppThread::MyAppThread(MyAppClass* parent) : MA5G_ThreadAbstract("MyAppThread", TYPE_LONGTERM), 
 	_parent(parent) {
 	std::cerr << __PRETTY_FUNCTION__ << std::endl;	
 	setSchedPriority(Thread::PRIORITY_HIGH);
@@ -27,5 +36,6 @@ int MyAppThread::loopProcess(void) {
 	return 0;
 }
 
+} // namespace Example;
 } // namespace MA5G;
 } // namespace Morpho

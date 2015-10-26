@@ -1,0 +1,8 @@
+/*!
+ * \mainpage MA5G thread central management.
+ * In order to collapse all thread management usage, a dedicated class has been defined (\ref Morpho::MA5G::Thread::MA5G_ThreadAbstract).
+ *
+ * This manual is divided in the following sections:
+ * - \subpage Template class (\ref Morpho::MA5G::Thread::MA5G_ThreadAbstract)
+ * - \subpage Example of usage (\ref Morpho::MA5G::Example::MyAppThread and \ref Morpho::MA5G::Example::MyAppClass)
+ */
