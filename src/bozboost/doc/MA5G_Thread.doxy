@@ -8,7 +8,7 @@ PROJECT_NAME           = "MA5G Thread central management"
 PROJECT_NUMBER         =
 PROJECT_BRIEF          =
 PROJECT_LOGO           =
-OUTPUT_DIRECTORY       = output
+OUTPUT_DIRECTORY       = $(PWD)/output
 CREATE_SUBDIRS         = NO
 ALLOW_UNICODE_NAMES    = NO
 OUTPUT_LANGUAGE        = English
@@ -100,7 +100,7 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # Configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = doc/ .
+INPUT                  = $(ROOTPATH)/doc/ $(ROOTPATH)/thread/ $(ROOTPATH)/example/
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.doxy *.hpp *.cpp
 RECURSIVE              = NO
@@ -188,7 +188,7 @@ MATHJAX_FORMAT         = HTML-CSS
 MATHJAX_RELPATH        = http://cdn.mathjax.org/mathjax/latest
 MATHJAX_EXTENSIONS     =
 MATHJAX_CODEFILE       =
-SEARCHENGINE           = YES
+SEARCHENGINE           = NO
 SERVER_BASED_SEARCH    = NO
 EXTERNAL_SEARCH        = NO
 SEARCHENGINE_URL       =

@@ -14,6 +14,12 @@ namespace Morpho {
 namespace MA5G {
 namespace Example {
 
+/*! \class MyAppClass
+ * \brief Application class.
+ * 
+ * This class use a specific thread to \ref MyAppThread. 
+ * \note It offers access to private members of class \ref MyAppThread.
+ */
 class MyAppClass  {
 	// ici on accède aux membres privés de la classe mère
 	friend class Morpho::MA5G::Example::MyAppThread;

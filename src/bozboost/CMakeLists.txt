@@ -2,10 +2,10 @@
 set(BOZ_BOOST_APP bozApp)
 
 set(SOURCES
-    MA5G_ThreadAbstract.cpp
-    MyAppThread.cpp
-    MyAppClass.cpp
-	main.cpp
+    thread/MA5G_ThreadAbstract.cpp
+    example/MyAppThread.cpp
+    example/MyAppClass.cpp
+	example/main.cpp
     )
     
 add_executable(${BOZ_BOOST_APP} 

@@ -16,6 +16,12 @@ namespace Example {
 
 class MyAppClass;
 
+/*! \class MyAppThread
+ * \brief Application threaded worker class.
+ * 
+ * This class is the specific implementation of worker dedicated to \ref MyAppClass. 
+ * \note It could access to private members of class \ref MyAppClass.
+ */
 class MyAppThread : public Morpho::MA5G::Thread::MA5G_ThreadAbstract {
 	
 public:
