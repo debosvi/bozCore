@@ -5,7 +5,7 @@
  * \version 0.1
  */
  
-#define _GNU_SOURCE
+#define _USE_GNU
 
 #include <pthread.h>
 #include <errno.h>
@@ -91,7 +91,7 @@ int MA5G_ThreadAbstract::internalProcess(void) {
 		{
 			boost::lock_guard<boost::mutex> guard(_mut);	
 			if(_update) {
-				if(pthread_setname_np(_th->get_id(), _name.c_str())<0)
+				if(pthread_setname_np(_th->native_handle(), _name.c_str())<0)
 					std::cerr << __PRETTY_FUNCTION__ << "pthread_setname_np error (" << errno << "/" << strerror(errno) << ")" << std::endl;
 				
 				if(nice(prio_values.at(_prio))<0)

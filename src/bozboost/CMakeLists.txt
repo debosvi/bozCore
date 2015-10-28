@@ -1,11 +1,13 @@
 
+include_directories(thread)
+
 set(BOZ_BOOST_APP bozApp)
 
 set(SOURCES
     thread/MA5G_ThreadAbstract.cpp
     example/MyAppThread.cpp
     example/MyAppClass.cpp
-	example/main.cpp
+    example/main.cpp
     )
     
 add_executable(${BOZ_BOOST_APP} 
@@ -13,9 +15,9 @@ add_executable(${BOZ_BOOST_APP}
     )
 
 target_link_libraries(${BOZ_BOOST_APP}
-    boost_thread
-	boost_system
-	stdc++
+    ${Boost_THREAD_LIBRARY}
+    ${Boost_SYSTEM_LIBRARY}
+    pthread
     )
     
 
