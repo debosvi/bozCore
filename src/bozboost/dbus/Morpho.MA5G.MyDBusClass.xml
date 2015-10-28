@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<node name="/Morpho/MA5G">
+  <interface name="Morpho.MA5G.MyDBusClass">
+    <method name="Random">
+      <arg type="i" name="version" direction="out"/>
+    </method>
+  </interface>
+</node>
