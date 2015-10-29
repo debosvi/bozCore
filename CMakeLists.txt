@@ -7,7 +7,7 @@ include(CTest)
 
 include(tools.cmake)
 
-#set (CMAKE_VERBOSE_MAKEFILE ON)
+#set(CMAKE_VERBOSE_MAKEFILE ON)
 
 include_directories(${CMAKE_BINARY_DIR}/include)
 

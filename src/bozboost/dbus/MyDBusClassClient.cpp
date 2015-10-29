@@ -13,5 +13,9 @@ MyDBusClassClient::~MyDBusClassClient() {
 
 }
 
+void MyDBusClassClient::valueChanged(const std::string& source_name) {
+    std::cerr << __PRETTY_FUNCTION__ << ", name: " << source_name << std::endl;
+}
+
 } // namespace MA5G
 } // namespace Morpho

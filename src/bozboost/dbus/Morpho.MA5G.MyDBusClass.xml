@@ -4,5 +4,8 @@
     <method name="Random">
       <arg type="i" name="version" direction="out"/>
     </method>
+    <signal name="valueChanged">
+      <arg type="s" name="source_name" direction="out"/>
+    </signal>
   </interface>
 </node>

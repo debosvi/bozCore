@@ -17,6 +17,7 @@ class MyDBusClassClient :
 public:
     MyDBusClassClient(DBus::Connection& connection, const char *path, const char *name);
     ~MyDBusClassClient();
+    void valueChanged(const std::string& source_name);
 
 private:
 

@@ -11,6 +11,7 @@ set(CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE ON)
 include(${CMAKE_CURRENT_LIST_DIR}/boz-vars.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/boz-install.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/boz-incgen.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/boz-dbus.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/boz-doc.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/boz-test-macros.cmake)
 
