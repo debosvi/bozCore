@@ -10,12 +10,10 @@
 
 #include <string>
 #include <boost/thread.hpp>
- 
- 
+  
 namespace Morpho {
 namespace MA5G {
 namespace Thread {
-	
 	
 /*! \brief Priority specific definitions.
  * Allows to decorrelate definitions from implementation values.
@@ -63,7 +61,7 @@ public:
      * \brief Destructor
 	 * Automatically stops and cleans thread context.
      */
-    ~MA5G_ThreadAbstract();
+    virtual ~MA5G_ThreadAbstract();
 	
 	// public APIs
     /*!
@@ -99,7 +97,7 @@ private:
 	MA5G_ThreadPriority _prio;      /*!< Thread priority. */
 	MA5G_ThreadType _type;			/*!< Thread type, refer to \ref OneShot and \ref LongTerm. */
 	int _stop;						/*!< Stop waiting for next iteration. */
-	char _update;					/*!< Priority and/or name to apply on next iteration. */
+	char _update;					/*!< Priority and/or name settings to apply on next iteration. */
 	
 	std::map<int, int> prio_values;
 
