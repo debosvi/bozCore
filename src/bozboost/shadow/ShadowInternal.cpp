@@ -15,5 +15,13 @@ ShadowInternal::~ShadowInternal() {
     std::cerr << __PRETTY_FUNCTION__ << std::endl;
 }
 
+void ShadowInternal::process(void) {
+    for(int i = 0; i<5; i++) {
+        std::cerr << __PRETTY_FUNCTION__ << std::endl;
+        _parent->_onEventSig(_name, _val);
+        boost::this_thread::sleep(boost::posix_time::seconds(1));
+    }
+}
+
 } // namespace Shadow
 } // namespace Bozo

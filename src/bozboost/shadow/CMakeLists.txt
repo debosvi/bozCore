@@ -12,6 +12,7 @@ add_executable(${BOZ_SHADOW_APP}
     )
     
 target_link_libraries(${BOZ_SHADOW_APP}
+    boost_thread
     boost_system
     )
     

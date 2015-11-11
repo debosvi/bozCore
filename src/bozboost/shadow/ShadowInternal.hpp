@@ -11,7 +11,8 @@ class ShadowInternal {
 public:
     ShadowInternal(ShadowPublic *parent, const std::string name, const int val);
     ~ShadowInternal();
-
+    void process(void);
+    
 private:
     ShadowPublic* _parent;
     std::string _name;
