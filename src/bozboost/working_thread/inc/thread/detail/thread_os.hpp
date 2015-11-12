@@ -1,16 +1,17 @@
-/*
- * Constantin Fishkin
- * 
- * constantin.fishkin@gmail.com
- *
+/*!
+ * \file thread_os.hpp
+ * \brief Working Thread OS dependent interface.
+ * \author Vincent de RIBOU
+ * \version 0.1
  */
-#ifndef QM_THREAD_DETAIL_OS_HPP
-#define QM_THREAD_DETAIL_OS_HPP
+
+#ifndef _BOZ_THREAD_DETAIL_OS_HPP_
+#define _BOZ_THREAD_DETAIL_OS_HPP_
 
 #include <boost/thread.hpp>
 
-namespace qm {
-namespace utils {
+namespace boz {
+namespace thread {
 
 typedef unsigned int thread_id_t;
 const thread_id_t INVALID_THREAD_ID=0;
@@ -95,10 +96,10 @@ private:
 
 #if defined(BOOST_THREAD_PLATFORM_WIN32)
     // windows version
-    #include "thread_win.h"
+    #include "thread_win.hpp"
 #elif defined(BOOST_THREAD_PLATFORM_PTHREAD)
     // pthread version
-    #include "thread_lin.h"
+    #include "thread_lin.hpp"
 #else
     #error "Threads are unavailable on this platform"
 #endif
@@ -148,7 +149,7 @@ inline unsigned set_attrubute_priority(int priority_value, int priority_class, h
     return os_set_attrubute_priority(priority_value, priority_class, h);
 }
 
-}
-}
+} // namespace thread
+} // namespace boz
 
-#endif
+#endif // _BOZ_THREAD_DETAIL_OS_HPP_

@@ -1,12 +1,12 @@
-/*
- * Constantin Fishkin
- * 
- * constantin.fishkin@gmail.com
- *
+/*!
+ * \file working_thread.hpp
+ * \brief Working Thread interface.
+ * \author Vincent de RIBOU
+ * \version 0.1
  */
 
-#ifndef QM_THREAD_THREAD_H
-#define QM_THREAD_THREAD_H
+#ifndef _BOZ_THREAD_WORKING_H_
+#define _BOZ_THREAD_WORKING_H_
 
 #include <string>
 #include <list>
@@ -16,10 +16,10 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/mem_fn.hpp>
 
-#include "detail/thread_os.h"
+#include "detail/thread_os.hpp"
 
-namespace qm {
-namespace utils {
+namespace boz {
+namespace thread {
 
 
 //! \class working_thread
@@ -536,7 +536,7 @@ private:
     boost::condition_variable m_pause;
 };
 
-}
-}
+} // namespace thread
+} // namespace boz
 
-#endif
+#endif // _BOZ_THREAD_WORKING_H_

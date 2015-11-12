@@ -1,14 +1,14 @@
-/*
- * Constantin Fishkin
- * 
- * constantin.fishkin@gmail.com
- *
+/*!
+ * \file working_thread.cpp
+ * \brief Working Thread implementation.
+ * \author Vincent de RIBOU
+ * \version 0.1
  */
 
-#include "thread/working_thread.h"
+#include "thread/working_thread.hpp"
 
-namespace qm {
-namespace utils {
+namespace boz {
+namespace thread {
 
 const size_t working_thread::DEFAULT_STACK_VALUE=0;
 const working_thread::id_type working_thread::INVALID_ID_VALUE=INVALID_THREAD_ID;
@@ -305,5 +305,5 @@ void working_thread::signal_state(state_type state)
     m_signal.notify_one();
 }
 
-}
-}
+} // namespace thread
+} // namespace boz

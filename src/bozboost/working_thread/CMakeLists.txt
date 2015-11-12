@@ -17,6 +17,7 @@ add_library(${BOZ_WORKING_THREAD_LIB} STATIC
 target_link_libraries(${BOZ_WORKING_THREAD_LIB}
     boost_thread
     boost_system
+    pthread
     )
     
 # BOZ_INSTALL_ITEM(${BOZ_WORKING_THREAD_LIB})

@@ -8,9 +8,9 @@
 #include <iostream>
 #include <poll.h>
 
-#include "thread/working_thread.h"
+#include "thread/working_thread.hpp"
 
-class myThread: public qm::utils::working_thread {
+class myThread: public boz::thread::working_thread {
 public:
     explicit myThread() : working_thread("myThread") {
         std::cerr << __PRETTY_FUNCTION__ << std::endl;
@@ -38,7 +38,7 @@ public:
 };
 
 int main() {
-    qm::utils::working_thread::bulk bk;
+    boz::thread::working_thread::bulk bk;
     
     for(int i=0; i<5; i++)
         bk+=new myThread();
