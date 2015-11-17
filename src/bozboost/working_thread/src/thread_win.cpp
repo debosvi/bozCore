@@ -5,17 +5,14 @@
  * \version 0.1
  */
 
-#include "thread_lin.hpp"
+#include "thread/detail/thread_lin.hpp"
 
-DWORD os_get_current_thread_id()
-{
+DWORD os_get_current_thread_id() {
     return GetCurrentThreadId();
 }
 
-int os_get_priority_value(priority_data::epriority ep)
-{
-    switch(ep)
-    {
+int os_get_priority_value(priority_data::epriority ep) {
+    switch(ep) {
     case priority_data::NORMAL:
         return THREAD_PRIORITY_NORMAL;
     case priority_data::ABOVE:
@@ -35,10 +32,8 @@ int os_get_priority_value(priority_data::epriority ep)
     }
 }
 
-int os_get_priority_class(priority_data::epriority ep)
-{
-    switch(ep)
-    {
+int os_get_priority_class(priority_data::epriority ep) {
+    switch(ep) {
     // for these range
     // the the priority value should be used
     // instead of class
@@ -59,8 +54,7 @@ int os_get_priority_class(priority_data::epriority ep)
     }
 }
 
-unsigned os_adjust_priority(int priority_value, int priority_class, handle_t h)
-{
+unsigned os_adjust_priority(int priority_value, int priority_class, handle_t h) {
     if(priority_data::PRIORITY_DEFAULT_VALUE!=priority_value)
         if(!SetThreadPriority(h, priority_value)) return GetLastError();
 
@@ -70,8 +64,7 @@ unsigned os_adjust_priority(int priority_value, int priority_class, handle_t h)
     return 0;
 }
 
-unsigned os_set_attrubute_priority(int priority_value, int priority_class, handle_t h)
-{
-    // does not work with attrubutes
+unsigned os_set_attribute_priority(int priority_value, int priority_class, handle_t h) {
+    // does not work with attributes
     return 0;
 }

@@ -56,19 +56,14 @@ public:
 
     //! default ctor
     //! uses the default values for both priority and class
-    priority_data() : 
-        m_value(PRIORITY_DEFAULT_VALUE), 
-        m_class(PRIORITY_DEFAULT_VALUE) 
-    {}
+    priority_data();
 
     //! ctor gets numerical platform specific
     //! priority value and uses the default
     //! priority class
     //! \param pr numerical platform specific
     //! priority value
-    priority_data(int pr) : 
-        m_value(pr), m_class(PRIORITY_DEFAULT_VALUE) 
-    {}
+    priority_data(int pr);
 
     //! ctor gets numerical platform specific
     //! values for priority and priority class
@@ -76,9 +71,7 @@ public:
     //! priority value
     //! \param cl numerical platform specific
     //! priority class value
-    priority_data(int pr, int cl) : 
-        m_value(pr), m_class(cl) 
-    {}
+    priority_data(int pr, int cl);
 
     //! ctor gets enumerated platform independent
     //! priority value and converts it to platform
@@ -86,9 +79,10 @@ public:
     priority_data(epriority ep);
 
     //! gets the platform specific priority value
-    int priority_value() const {return m_value;}
+    int priority_value() const;
     //! gets the platform specific priority class value
-    int priority_class() const {return m_class;}
+    int priority_class() const;
+    
 private:
     const int m_value;
     const int m_class;
@@ -124,18 +118,12 @@ inline int get_priority_class(priority_data::epriority ep)
     return os_get_priority_class(ep);
 }
 
-inline priority_data::priority_data(epriority ep) : 
-    m_value(get_priority_value(ep)),
-    m_class(get_priority_class(ep))
-{}
-
 //! sets priority of the current thread
 //! \param priority_value platform specific priority value
 //! \param priority_class platform specific priority class value
 //! \param h platform specific thread handle
 //! \return 0 on success and system error code on failure
-inline unsigned adjust_priority(int priority_value, int priority_class, handle_t h)
-{
+inline unsigned adjust_priority(int priority_value, int priority_class, handle_t h) {
     return os_adjust_priority(priority_value, priority_class, h);
 }
 
@@ -144,9 +132,8 @@ inline unsigned adjust_priority(int priority_value, int priority_class, handle_t
 //! \param priority_class platform specific priority class value
 //! \param h platform specific thread attribute handle
 //! \return 0 on success and system error code on failure
-inline unsigned set_attrubute_priority(int priority_value, int priority_class, handle_t h)
-{
-    return os_set_attrubute_priority(priority_value, priority_class, h);
+inline unsigned set_attribute_priority(int priority_value, int priority_class, handle_t h) {
+    return os_set_attribute_priority(priority_value, priority_class, h);
 }
 
 } // namespace thread

@@ -25,9 +25,10 @@ namespace thread {
 //! <code>pause()</code> and <code>resume()</code> operations simultaneously for several thread objects.
 //! The class methods will be completed when the corresponding operation is completed for every thread object 
 //! in the bulk is complited. This approach can significantly reduce operation time for a thread pool.
-struct bulk {
+class bulk {
+public:
     //! default ctor
-    bulk();
+    explicit bulk();
 
     //! ctor accepts one thread object
     //! and adds it to the inner bulk list

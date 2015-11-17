@@ -199,7 +199,7 @@ bool working_thread::launch() {
     // set stack size - crossplatform
     attr.set_stack_size(m_stack_size);
     // set thread priority - platform specific
-    unsigned rc=set_attrubute_priority(m_priority.priority_value(), 
+    unsigned rc=set_attribute_priority(m_priority.priority_value(), 
         m_priority.priority_class(), attr.native_handle());
     if(rc) m_error.assign(rc, boost::system::system_category());
     // launch void main() member function

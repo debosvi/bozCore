@@ -16,7 +16,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/mem_fn.hpp>
 
-#include "detail/thread_os.hpp"
+#include "thread/detail/thread_os.hpp"
 
 namespace boz {
 namespace thread {

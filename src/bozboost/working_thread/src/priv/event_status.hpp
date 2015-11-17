@@ -11,9 +11,9 @@
 namespace boz {
 namespace thread {
 
-struct event_status
-{
-    event_status();
+class event_status {
+public:
+    explicit event_status();
     event_status(bool success_, bool wait_);
     event_status(bool rc);
 

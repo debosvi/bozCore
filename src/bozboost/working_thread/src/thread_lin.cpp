@@ -9,7 +9,7 @@
 #include <sys/types.h>
 // #include <sys/syscall.h>
 
-#include "thread_lin.hpp"
+#include "thread/detail/thread_lin.hpp"
 
 unsigned int os_get_current_thread_id()
 {
@@ -72,7 +72,7 @@ unsigned os_adjust_priority(int priority_value, int priority_class, handle_t h)
     return 0;
 }
 
-unsigned os_set_attrubute_priority(int priority_value, int priority_class, handle_t h)
+unsigned os_set_attribute_priority(int priority_value, int priority_class, handle_t h)
 {
     // for the default priority we should use SCHED_OTHER class
     // for others, if the class is not specified - SCHED_RR class
