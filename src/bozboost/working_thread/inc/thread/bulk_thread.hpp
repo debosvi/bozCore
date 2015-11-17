@@ -30,6 +30,9 @@ public:
     //! default ctor
     explicit bulk();
 
+    //! dtor
+    ~bulk();
+
     //! ctor accepts one thread object
     //! and adds it to the inner bulk list
     bulk(working_thread* obj);
@@ -59,6 +62,15 @@ public:
     //! that are in the given state
     template<typename It>
     size_t count(It begin, It end, working_thread::state_type state);
+    
+    //! perform start operation on an external container
+    //! of the thread objects. The method is blocking.
+    //! The container can be a container of objects, pointers
+    //! or boost's shared pointers.
+    //! \param begin the first iterator of the input container.
+    //! \param end the last iterator of the input container.
+    template<typename It>
+    static void deletion(It begin, It end);
     
     //! perform start operation on an external container
     //! of the thread objects. The method is blocking.
@@ -106,6 +118,11 @@ public:
     //! \return amount of thread objects in the inner containter
     //! that are in the given state
     size_t count(working_thread::state_type state);
+
+    //! perform deletion operation on the inner thread object container.
+    //! The method is blocking.
+    //! \sa <code>operator+=(working_thread* obj)</code>.
+    void deletion();
 
     //! perform start operation on the inner thread object container.
     //! The method is blocking.

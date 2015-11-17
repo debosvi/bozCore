@@ -13,7 +13,11 @@
 namespace boz {
 namespace thread {
 
-bulk::bulk(){    
+bulk::bulk() {    
+}
+
+bulk::~bulk() { 
+    
 }
 
 bulk::bulk(working_thread* obj) {
@@ -49,6 +53,12 @@ size_t bulk::count(It begin, It end, working_thread::state_type state) {
         if(get_ptr(*begin)->state()==state) ++rc;
 
     return rc;
+}
+
+template<typename It>
+void bulk::deletion(It begin, It end) {
+    for (; begin != end; ++begin)
+        delete get_ptr(*begin);    
 }
 
 template<typename It>
@@ -92,6 +102,10 @@ void bulk::resume(It begin, It end) {
  
 size_t bulk::count(working_thread::state_type state) {
     return count(m_objects.begin(), m_objects.end(),state);
+}
+
+void bulk::deletion() {
+    return deletion(m_objects.begin(), m_objects.end());
 }
 
 void bulk::start() {
