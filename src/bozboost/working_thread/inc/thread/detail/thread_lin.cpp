@@ -7,24 +7,24 @@
 
 #include <pthread.h>
 #include <sys/types.h>
-#include <sys/syscall.h>
+// #include <sys/syscall.h>
 
 #include "thread_lin.hpp"
 
 unsigned int os_get_current_thread_id()
 {
     
-#if defined(linux) || defined(__linux) || defined(__linux__)
+// #if defined(linux) || defined(__linux) || defined(__linux__)
     // is not cross platform 
     // works only for Linux
-    return syscall(SYS_gettid);
-#else
+    // return syscall(SYS_gettid);
+// #else
     // cross platform
     // actually thread handle
     pthread_t tid = pthread_self();
     unsigned int* ptid = (unsigned int*)&tid;
     return *(unsigned int*)ptid;
-#endif
+// #endif
     
 }
 

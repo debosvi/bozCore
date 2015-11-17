@@ -9,6 +9,7 @@
 #include <poll.h>
 
 #include "thread/working_thread.hpp"
+#include "thread/bulk_thread.hpp"
 
 class myThread: public boz::thread::working_thread {
 public:
@@ -38,7 +39,7 @@ public:
 };
 
 int main() {
-    boz::thread::working_thread::bulk bk;
+    boz::thread::bulk bk;
     
     for(int i=0; i<5; i++)
         bk+=new myThread();

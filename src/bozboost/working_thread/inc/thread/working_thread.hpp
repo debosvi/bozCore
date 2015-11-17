@@ -21,6 +21,7 @@
 namespace boz {
 namespace thread {
 
+struct event_status;
 
 //! \class working_thread
 //! \brief Thread wrapper with safe start/stop/pause/resume methods.
@@ -112,285 +113,24 @@ public:
             
     typedef priority_data priority_type;
     typedef boost::system::error_code error_type;
-
-    //! \class bulk
-    //! \brief An auxiliary class that performs the blocking <code>start()</code>, <code>stop()</code>, 
-    //! <code>pause()</code> and <code>resume()</code> operations simultaneously for several thread objects.
-    //! \details The class accesses the hidden non-blocking methods of the <code>working_thread</code> class 
-    //! and performs the <code>start()</code>, <code>stop()</code>, 
-    //! <code>pause()</code> and <code>resume()</code> operations simultaneously for several thread objects.
-    //! The class methods will be completed when the corresponding operation is completed for every thread object 
-    //! in the bulk is complited. This approach can significantly reduce operation time for a thread pool.
-    struct bulk
-    {
-        //! default ctor
-        bulk(){}
-
-        //! ctor accepts one thread object
-        //! and adds it to the inner bulk list
-        bulk(working_thread* obj)
-        {
-            m_objects.push_back(obj);
-        }
-
-        //! ctor accepts two thread objects
-        //! and adds them to the inner bulk list
-        bulk(working_thread* obj1, working_thread* obj2)
-        {
-            m_objects.push_back(obj1);
-            m_objects.push_back(obj2);
-        }
-
-        //! ctor accepts three thread objects
-        //! and adds them to the inner bulk list
-        bulk(working_thread* obj1, working_thread* obj2, 
-            working_thread* obj3)
-        {
-            m_objects.push_back(obj1);
-            m_objects.push_back(obj2);
-            m_objects.push_back(obj3);
-        }
-
-        //! ctor accepts four thread objects
-        //! and adds them to the inner bulk list
-        bulk(working_thread* obj1, working_thread* obj2, 
-            working_thread* obj3, working_thread* obj4)
-        {
-            m_objects.push_back(obj1);
-            m_objects.push_back(obj2);
-            m_objects.push_back(obj3);
-            m_objects.push_back(obj4);
-        }
-
-        //! the operator adds the thread object
-        //! to the inner bulk list
-        void operator+=(working_thread* obj)
-        {
-            m_objects.push_back(obj);
-        }
-               
-        //! counts amount of thread objects in an external containter
-        //! that are in the given state
-        //! \param begin the first iterator of the input container.
-        //! \param end the last iterator of the input container.
-        //! \param state state to count
-        //! \return amount of thread objects in the external containter
-        //! that are in the given state
-        template<typename It>
-        size_t count(It begin, It end, working_thread::state_type state)
-        {
-            size_t rc=0;
-            for (; begin != end; ++begin) 
-                if(get_ptr(*begin)->state()==state) ++rc;
-
-            return rc;
-        }
-        //! perform start operation on an external container
-        //! of the thread objects. The method is blocking.
-        //! The container can be a container of objects, pointers
-        //! or boost's shared pointers.
-        //! \param begin the first iterator of the input container.
-        //! \param end the last iterator of the input container.
-        template<typename It>
-        static void start(It begin, It end)
-        {
-            std::list<working_thread*> waiting_list;
-            for (; begin != end; ++begin) 
-                launch_item(get_ptr(*begin), waiting_list);
-            
-            std::for_each(waiting_list.begin(), waiting_list.end(), 
-                boost::mem_fn(&working_thread::wait_till_launched));
-        }
-
-        //! perform stop operation on an external container
-        //! of the thread objects. The method will block till
-        //! all objects in the container are in the <code>completed</code> state.
-        //! The container can be a container objects, pointers
-        //! or boost's shared pointers.
-        //! \param begin the first iterator of the input container.
-        //! \param end the last iterator of the input container.
-        //! \param force_interrupt forces using the boost's inerruption points:
-        //! if the thread in waitng at any of the <i>boost's interruption points</i>, it
-        //! will be interrupted as well.
-        template<typename It>
-        static void stop(It begin, It end, bool force_interrupt=false)
-        {
-            for (It item=begin; item != end; ++item) 
-                get_ptr(*item)->stop_request(force_interrupt);
-
-            for (It item=begin; item != end; ++item) 
-                get_ptr(*item)->join();
-        }
-
-        //! perform pause operation on an external container
-        //! of the thread objects. The method is blocking.
-        //! The container can be a container of objects, pointers
-        //! or boost's shared pointers.
-        //! \param begin the first iterator of the input container.
-        //! \param end the last iterator of the input container.
-        template<typename It>
-        static void pause(It begin, It end)
-        {
-            std::list<working_thread*> waiting_list;
-            for (; begin != end; ++begin) 
-                pause_item(get_ptr(*begin), waiting_list);
-            
-            std::for_each(waiting_list.begin(), waiting_list.end(), 
-                boost::mem_fn(&working_thread::wait_till_paused));
-        }
-
-        //! perform resume operation on an external container
-        //! of the thread objects. The method is blocking.
-        //! The container can be a container of objects, pointers
-        //! or boost's shared pointers.
-        //! \param begin the first iterator of the input container.
-        //! \param end the last iterator of the input container.
-        template<typename It>
-        static void resume(It begin, It end)
-        {
-            std::list<working_thread*> waiting_list;
-            for (; begin != end; ++begin) 
-                resume_item(get_ptr(*begin), waiting_list);
-            
-            std::for_each(waiting_list.begin(), waiting_list.end(), 
-                boost::mem_fn(&working_thread::wait_till_resumed));
-        }
-         
-        //! counts amount of thread objects in the inner containter
-        //! that are in the given state
-        //! \param state state to count
-        //! \return amount of thread objects in the inner containter
-        //! that are in the given state
-        size_t count(working_thread::state_type state)
-        {
-            return count(m_objects.begin(), m_objects.end(),state);
-        }
-
-        //! perform start operation on the inner thread object container.
-        //! The method is blocking.
-        //! \sa <code>operator+=(working_thread* obj)</code>.
-        void start()
-        {
-            return start(m_objects.begin(), m_objects.end());
-        }
-
-        //! perform stop operation on the inner thread object container.
-        //! The method will block till all objects in the container 
-        //! are in the <code>completed</code> state.
-        //! \param force_interrupt forces using the boost's inerruption points:
-        //! if the thread in waitng at any of the boost's inerruption points, it
-        //! will be interrupted as well.
-        void stop(bool force_interrupt=false)
-        {
-            stop(m_objects.begin(), m_objects.end(), force_interrupt);
-        }
-
-        //! perform pause operation on the inner thread object container.
-        //! The method is blocking.
-        //! \sa <code>operator+=(working_thread* obj)</code>.
-        void pause()
-        {
-            return pause(m_objects.begin(), m_objects.end());
-        }
-
-        //! perform resume operation on the inner thread object container.
-        //! The method is blocking.
-        //! \sa <code>operator+=(working_thread* obj)</code>.
-        void resume()
-        {
-            return resume(m_objects.begin(), m_objects.end());
-        }
-        
-    private:
-        
-        static working_thread* get_ptr(boost::shared_ptr<working_thread> obj)
-        {
-            return obj.get();
-        }
-                
-        static working_thread* get_ptr(working_thread* obj)
-        {
-            return obj;
-        }
-                
-        static working_thread* get_ptr(working_thread& obj)
-        {
-            return &obj;
-        }
-        
-        static void launch_item(working_thread* obj, 
-            std::list<working_thread*>& ls)
-        {
-            event_status rc=obj->start_event();
-            if(rc.wait) ls.push_back(obj);
-        }
-
-        static void pause_item(working_thread* obj, 
-            std::list<working_thread*>& ls)
-        {
-            event_status rc=obj->pause_event();
-            if(rc.wait) ls.push_back(obj);
-        }
-
-        static void resume_item(working_thread* obj, 
-            std::list<working_thread*>& ls)
-        {
-            event_status rc=obj->resume_event();
-            if(rc.wait) ls.push_back(obj);
-        }
-                
-    private:
-        std::list<working_thread*> m_objects;
-    };
         
 public:
     //! ctor accepts name, thread priority and stack size
     //! \param name thread name. Default name is the empty string.
     //! \param p thread priority. Dafault value is the system default.
     //! \param stack_size thread stack size. Dafault value is the system default.
-    working_thread
-    (
-        const std::string& name=std::string(),
-        priority_type p=priority_type(), 
-        size_t stack_size=DEFAULT_STACK_VALUE
-    ) :
-        m_name(name),
-        m_priority(p),
-        m_stack_size(stack_size),
-        m_state(init),
-        m_request(rq_none),
-        m_id(INVALID_THREAD_ID)
-    {}
+    working_thread(const std::string& name=std::string(), priority_type p=priority_type(), size_t stack_size=DEFAULT_STACK_VALUE);
 
-    virtual ~working_thread()
-    {
-        // stop() must be called before
-        // the derived class' dtor is completed.
-        // stop() cannot be called here
-        // because the thread's main function calls to
-        // class's virtual functions including the pure
-        // virtual action()
-        BOOST_ASSERT_MSG(detached(), 
-            "The thread function must be completed at this point");
-    }
+    virtual ~working_thread();
 
     //! gets the thread name
-    const std::string& name() const
-    {
-        return m_name;
-    }
+    const std::string& name() const;
 
     //! gets the thread priority
-    priority_type priority() const
-    {
-        return m_priority;
-    }
+    priority_type priority() const;
 
     //! gets the thread stack size
-    size_t stack_size() const
-    {
-        return m_stack_size;
-    }
+    size_t stack_size() const;
 
     //! starts the thread. The method is blocking.
     bool start();
@@ -417,28 +157,16 @@ public:
     handle_type handle();
     
     //! gets the thread current state
-    state_type state() const
-    {
-        return m_state;
-    }
+    state_type state() const;
 
     //! true if the thread is completed or not started yet
-    bool detached() const
-    {
-        return init==m_state || completed==m_state;
-    }
+    bool detached() const;
 
     //! true if the thread is running or paused
-    bool attached() const
-    {
-        return !detached();
-    }
+    bool attached() const;
 
     //! returns last error
-    const error_type& last_error() const
-    {
-        return m_error;
-    }
+    const error_type& last_error() const;
     
 protected:
 
@@ -457,7 +185,7 @@ protected:
     //! its execution. The thread state is <code>running</code>.
     //! The method is called in context of the running thread.
     //! The method can be implemented in derived classes.
-    virtual void on_start(){}
+    virtual void on_start();
 
     //! the callback is called after the thread ceased to call
     //! the <code>action</code> method but
@@ -465,31 +193,25 @@ protected:
     //! The method is called in context of the running thread.
     //! The thread state is <code>completed</code>.
     //! The method can be implemented in derived classes.
-    virtual void on_exit(){}
+    virtual void on_exit();
     
     //! the callback is invoked each time either the <code>stop()</code>
     //! or <code>pause()</code> is called. A derived class can use this
     //! callback to force the <code>action()</code> to check 
     //! the<code>is_interrupted()</code> flag.
-    virtual void on_interrupt(){}
+    virtual void on_interrupt();
 
     //! signals to the <code>action()</code> to exit.
     //! The flag is set on either stop or pause request.
-    bool is_interrupted() const
-    {
-        return rq_none!=m_request;
-    }
+    bool is_interrupted() const;
+    
 private:
     void main();
     void idle();
     void signal_state(state_type state);
     enum erequest{rq_none, rq_pause, rq_stop};
 
-    void request(erequest rq)
-    {
-        m_request=rq;
-    }
-
+    void request(erequest rq);
     void stop_request(bool force);
     bool launch();
     void wake_up(erequest rq);
@@ -498,30 +220,10 @@ private:
     bool wait_till_resumed();
     bool wait_till_paused();
 
-    struct event_status
-    {
-        event_status() : 
-            success(false),
-            wait(false)
-        {}
-
-        event_status(bool success_, bool wait_) : 
-            success(success_),
-            wait(wait_)
-        {}
-
-        event_status(bool rc) : 
-            success(rc),
-            wait(rc)
-        {}
-
-        bool success;
-        bool wait;
-    };
-
     event_status start_event();
     event_status pause_event();
     event_status resume_event();
+    
 private:
     const std::string m_name;
     const priority_type m_priority;

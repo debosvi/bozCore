@@ -7,6 +7,8 @@ set(BOZ_WORKING_THREAD_LIB working_thread)
 
 set(SOURCES
     src/working_thread.cpp
+    src/bulk_thread.cpp
+    src/event_status.cpp
     src/thread_os.cpp
     )
     
