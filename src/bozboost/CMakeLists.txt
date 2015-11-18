@@ -23,4 +23,5 @@ target_link_libraries(${BOZ_BOOST_APP}
 add_subdirectory(dbus)
 add_subdirectory(shadow)
 add_subdirectory(working_thread)
+add_subdirectory(state_machine)
 # BOZ_INSTALL_ITEM(${BOZ_BOOST_APP})
