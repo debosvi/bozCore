@@ -10,7 +10,7 @@ add_executable(${BOZ_DBUS_SERVER_APP}
     ${SOURCES}
     )
     
-DBUS_GEN_ADAPTOR("Morpho.MA5G.MyDBusClass.xml" "MyDBusClass" ${BOZ_DBUS_SERVER_APP})
+DBUS_GEN_CPP_ADAPTOR("Morpho.MA5G.MyDBusClass.xml" "MyDBusClass" ${BOZ_DBUS_SERVER_APP})
 
 target_link_libraries(${BOZ_DBUS_SERVER_APP}
     ${DBusCpp_LIBRARIES}
@@ -30,7 +30,7 @@ add_executable(${BOZ_DBUS_CLIENT_APP}
     ${SOURCES}
     )
 
-DBUS_GEN_PROXY("Morpho.MA5G.MyDBusClass.xml" "MyDBusClass" ${BOZ_DBUS_CLIENT_APP})
+DBUS_GEN_QT_PROXY("Morpho.MA5G.MyDBusClass.xml" "MyDBusClass" ${BOZ_DBUS_CLIENT_APP})
     
 target_link_libraries(${BOZ_DBUS_CLIENT_APP}
     ${DBusCpp_LIBRARIES}
