@@ -7,12 +7,13 @@
  
 #include <iostream>
 
-#include "dbus_statemachine.hpp"
+#include "StateMachine.hpp"
 
-int main()
-{
-    boz::dbus_sm sm;
+int main() {
+    boz::sm::StateMachine machine;
     
-    sm.start();
+    machine.start();
+    machine.stop();
+    
     return 0;
 }

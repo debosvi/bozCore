@@ -3,24 +3,23 @@ include_directories(inc)
 
 ###############################################################################
 ###############################################################################
-set(BOZ_STATEMACHINE_LIB dbus_statemachine)
+set(BOZ_STATEMACHINE_LIB statemachine)
 
 set(SOURCES
-    src/dbus_statemachine.cpp
-    # src/dbus_sm1.cpp
-    # src/dbus_sm2.cpp
-    # src/dbus_sm3.cpp
+    src/BaseState.cpp
+    src/State.cpp
+    src/StateMachine.cpp
     )
     
-add_library(${BOZ_STATEMACHINE_LIB} SHARED
+add_library(${BOZ_STATEMACHINE_LIB} STATIC
     ${SOURCES}
     )
 
 target_link_libraries(${BOZ_STATEMACHINE_LIB}
-    boost_system
+    # boost_system
     )
     
-BOZ_INSTALL_ITEM(${BOZ_STATEMACHINE_LIB})
+# BOZ_INSTALL_ITEM(${BOZ_STATEMACHINE_LIB})
 
 ###############################################################################
 ###############################################################################
@@ -35,7 +34,7 @@ add_executable(${BOZ_STATEMACHINE_APP}
     )
 
 target_link_libraries(${BOZ_STATEMACHINE_APP}
-    dbus_statemachine
+    ${BOZ_STATEMACHINE_LIB}
     )
     
-BOZ_INSTALL_ITEM(${BOZ_STATEMACHINE_APP})
+# BOZ_INSTALL_ITEM(${BOZ_STATEMACHINE_APP})
