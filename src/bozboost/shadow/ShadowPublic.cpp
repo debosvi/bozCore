@@ -11,8 +11,6 @@ ShadowPublic::ShadowPublic(const std::string name, const int val) :
     _internal(new ShadowInternal(this, name, val)) {
     
     std::cerr << __PRETTY_FUNCTION__ << std::endl;
-    boost::shared_ptr<boost::thread> th(new boost::thread(boost::bind(&ShadowInternal::process, _internal)));
-    _thread = th;
 }
 
 ShadowPublic::~ShadowPublic() {

@@ -7,7 +7,9 @@ set(BOZ_STATEMACHINE_LIB statemachine)
 
 set(SOURCES
     src/BaseState.cpp
+    src/BaseTransition.cpp
     src/State.cpp
+    src/StateMachinePrivate.cpp
     src/StateMachine.cpp
     )
     

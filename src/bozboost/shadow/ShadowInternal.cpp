@@ -9,6 +9,8 @@ namespace Shadow {
 ShadowInternal::ShadowInternal(ShadowPublic *parent, const std::string name, const int val) : 
     _parent(parent), _name(name), _val(val) {
     std::cerr << __PRETTY_FUNCTION__ << std::endl;
+    boost::shared_ptr<boost::thread> th(new boost::thread(boost::bind(&ShadowInternal::process, this)));
+    _thread = th;
 }
 
 ShadowInternal::~ShadowInternal() {

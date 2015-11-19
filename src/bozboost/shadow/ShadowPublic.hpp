@@ -5,7 +5,6 @@
 #include <string>
 #include <boost/signals2.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/thread.hpp>
 
 namespace Bozo {
 namespace Shadow {
@@ -25,7 +24,6 @@ public:
     
 private:
     boost::shared_ptr<ShadowInternal> _internal;
-    boost::shared_ptr<boost::thread> _thread;
     onEvent _onEventSig;
 };
 

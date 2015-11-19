@@ -5,25 +5,21 @@
  * \version 0.1
  */
  
-#include <unistd.h>
-#include <signal.h>
-#include <stdio.h>
-#include <string.h>
+#include <iostream>
 
 #include <boost/asio.hpp>
+
 #include "ShadowPublic.hpp"
 
 using namespace Bozo::Shadow;
 
 static void printEvent(const std::string name, const int val)
 {
-  std::cerr << __PRETTY_FUNCTION__ << "(" << name << ", " << val << ")" << std::endl;
+    std::cerr << __PRETTY_FUNCTION__ << "(" << name << ", " << val << ")" << std::endl;
 }
 
 int main()
 {
-    size_t i;
-
     ShadowPublic sp("test_name", 1);
     
     sp.doOnEvent(&printEvent);

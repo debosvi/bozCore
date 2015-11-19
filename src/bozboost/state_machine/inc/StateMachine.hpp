@@ -5,11 +5,16 @@
 namespace boz {
 namespace sm {
     
+class StateMachinePrivate;
+    
 class StateMachine : public State {
 
 public:
     explicit StateMachine(State *parent=0);
     ~StateMachine();
+    
+    void addState(BaseState* state);
+    void removeState(BaseState* state);
     
     void start();
     void stop();
@@ -19,7 +24,7 @@ protected:
     virtual void onExit();
     
 private:
-    BaseState* _initState;
+    StateMachinePrivate* _members;
 };
 
 } // namespace sm

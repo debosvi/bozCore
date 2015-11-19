@@ -2,6 +2,8 @@
 #ifndef _BOZ_SHADOW_INTERNAL_H_
 #define _BOZ_SHADOW_INTERNAL_H_
 
+#include <boost/thread.hpp>
+
 #include "ShadowPublic.hpp"
 
 namespace Bozo {
@@ -15,6 +17,7 @@ public:
     
 private:
     ShadowPublic* _parent;
+    boost::shared_ptr<boost::thread> _thread;
     std::string _name;
     int _val;
 };

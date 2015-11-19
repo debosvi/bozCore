@@ -17,7 +17,7 @@ bulk::bulk() {
 }
 
 bulk::~bulk() { 
-    
+    deletion();
 }
 
 bulk::bulk(working_thread* obj) {
